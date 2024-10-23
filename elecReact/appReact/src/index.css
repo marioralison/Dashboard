@@ -1,0 +1,20 @@
+@font-face {
+    font-family: regular;
+    src: url(./view/fonts/Sora-Regular.ttf);
+}
+@font-face {
+    font-family: semiBold;
+    src: url(./view/fonts/Sora-SemiBold.ttf);
+}
+@font-face {
+    font-family: NormalLight;
+    src: url(./view/fonts/Sora-Light.ttf);
+}
+@font-face {
+    font-family: ExtraLight;
+    src: url(./view/fonts/Sora-ExtraLight.ttf);
+}
+@font-face {
+    font-family: NormalMedium;
+    src: url(./view/fonts/Sora-Medium.ttf);
+}
