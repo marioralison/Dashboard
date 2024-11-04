@@ -1,0 +1,10 @@
+.cardMain{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    width: fit-content;
+    height: 100%;
+    box-shadow:  10px 8px 20px rgba(165, 199, 211, 0.13);
+}

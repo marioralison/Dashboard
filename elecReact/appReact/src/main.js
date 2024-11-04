@@ -13,6 +13,7 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      contextIsolation: true
     },
   });
 
@@ -28,6 +29,7 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  console.log("app : ", app)
   createWindow();
 
   // On OS X it's common to re-create a window in the app when the

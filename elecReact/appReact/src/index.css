@@ -18,3 +18,8 @@
     font-family: NormalMedium;
     src: url(./view/fonts/Sora-Medium.ttf);
 }
+
+:root{
+    --backgroundBtn : #359BC9;
+    --textBlack : #000000;
+}

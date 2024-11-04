@@ -1,0 +1,27 @@
+.btnNav{ 
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    border: none;
+    height: 70px;
+    width: auto;
+    cursor: pointer;
+}
+
+.containerBtn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 0 20px;
+}
+
+.icon{
+    width: 40px;
+    height: 40px;
+}
+
+.title{
+    font-size: 18px;
+    font-family: NormalLight;
+}

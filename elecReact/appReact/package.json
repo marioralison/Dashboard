@@ -3,7 +3,7 @@
   "productName": "appreact",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": ".webpack/main",
+  "main": ".webpack/main_window",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -27,6 +27,7 @@
     "babel-loader": "^9.2.1",
     "css-loader": "^6.11.0",
     "electron": "32.1.2",
+    "electron-rebuild": "^3.2.9",
     "file-loader": "^6.2.0",
     "node-loader": "^2.0.0",
     "style-loader": "^3.3.4"
@@ -39,10 +40,13 @@
   "license": "MIT",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
+    "flowbite-react": "^0.10.2",
     "node-gyp": "github:nodejs/node-gyp",
+    "path": "^0.12.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "util": "^0.12.5"
   }
 }

@@ -1,0 +1,43 @@
+.containerPrint{
+    height: 95%;
+    width: 97%;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+}
+
+/* ------------------------ */
+
+.headerPrint{
+    width: 100%;
+    height: 10%;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ----------------------------- */
+
+.searchSection{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 10%;
+    border: 1px solid black;
+}
+
+.shortImpression{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* ---------------------------------- */
+
+.printTableau{
+    width: 100%;
+    height: 80%;
+    border: 1px solid black;
+}

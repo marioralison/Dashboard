@@ -1,0 +1,25 @@
+.containerButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--backgroundBtn);
+    height: 3.5rem;
+    width: fit-content;
+    gap: 0.6rem;
+    padding: 0 0.5rem;
+    box-shadow:  17px 20px 30px #8dadb921;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.titleBtn{
+    color: #ffffff;
+    margin-right: 1rem;
+    font-weight: 200;
+}
+
+.iconBtn{
+    height: 30px;
+    width: 30px;
+    margin-left: 0.2rem;
+}
