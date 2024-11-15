@@ -4,8 +4,11 @@ import Logo from './icons/Logo.png';
 import Button from './components/Button.jsx';
 import Card from './components/card.jsx';
 
+
 const Home = () => {
+
     return (
+        
         <div className='containerLogin'>
             <div className='logoImage'>
                 <img src={Logo} alt='logo'/>
@@ -28,7 +31,5 @@ const Home = () => {
         </div>
     );
 }
-
-
 
 export default Home;    
