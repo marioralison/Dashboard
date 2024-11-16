@@ -1,2 +1,9 @@
-import './index.jsx';
-import { ipcRenderer } from 'electron';
+// import './index.jsx';
+const setButton = document.getElementById('btn')
+const titleInput = document.getElementById('title')
+
+
+setButton.addEventListener('click', () => {
+    const title = titleInput.value
+    window.electronAPI.setTitle(title)
+})

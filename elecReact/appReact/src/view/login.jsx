@@ -23,7 +23,7 @@ const Home = () => {
                         <form className='form'>
                             <input type="text" placeholder='Nom utilisateur'/>
                             <input type="password" placeholder='Mot de passe'/>
-                            <Button title="Acceder"></Button>   
+                            <Button title="Enregistrer"></Button>   
                         </form>
                     </div>
                 </Card>

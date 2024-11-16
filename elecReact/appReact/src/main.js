@@ -1,9 +1,15 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
+}
+
+function handleSetTitle (event, title) {
+  const webContents = event.sender
+  const win = BrowserWindow.fromWebContents(webContents)
+  win.setTitle(title)
 }
 
 const createWindow = () => {
@@ -13,8 +19,7 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      contextIsolation: false,
-      nodeIntegration: true
+      contextIsolation: true
     },
   });
 
@@ -30,7 +35,8 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  console.log("app : ", app)
+
+  ipcMain.on('set-title', handleSetTitle)
   createWindow();
 
   // On OS X it's common to re-create a window in the app when the

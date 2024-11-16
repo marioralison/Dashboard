@@ -8,9 +8,7 @@ import Test from './view/components/test/test.jsx';
 
 const App = () => {
     return (
-        <div style={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <Test></Test>
-        </div>
+        <Login></Login>
     );
 };
 
