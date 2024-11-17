@@ -1,9 +1,8 @@
 const readline = require('readline')
 const fs = require('fs')
-const { stdin } = require('process')
+const { stdin, resourceUsage } = require('process')
 
 const fileLocation = './test/data/fileData.txt'
-let data = []
 
 const rl = readline.createInterface({
     input : process.stdin,
@@ -13,21 +12,33 @@ const rl = readline.createInterface({
 function inputDataUser() {
 
     rl.question('Entrez vos donnée : ', (dataUser) => {
-        data.push(dataUser)
+
+        //Test si l'utilisateur n'a pas entré de donnée
+        if (dataUser.trim() === ''){
+            console.log('Veuillez entrer des données !')
+            return inputDataUser()
+        }
+
         fs.open(fileLocation, 'a+', (err, fd) => {
             if (err) throw err
             fs.write(fd, `\n${dataUser}`, (err) => {
                 if (err) throw err
-                console.log('Ajout réussi !')
             })
             fs.close(fd, () => {})
         })
+        console.log('Ajout réussi !')
+        console.log('')
         rl.question('Voulez-vous entrer plus de donnée ? (o/n) : ', (answer) => {
+
+            //Test si l'user n'a pas entré de donnée
+
             if (answer.toLowerCase() === 'o'){
                 inputDataUser()
             }
-            else if(answer.toLowerCase() === 'n'){
-                inputItemSearch()
+            else if((answer.toLowerCase() === 'n') || (answer.toLowerCase() !== ('n' || 'o'))){
+                console.log('Arrêt ajout !')
+                console.log('')
+                questionUser()
             }
         })
     })
@@ -69,9 +80,34 @@ function searchData(file, itemSearch){
 
 function inputItemSearch(){
 
-    rl.question('Entrez le mot que vous voulez rechercher : ', (itemInputSearch) => {
-        searchData(fileLocation, itemInputSearch)
+    rl.question('Entrez le mot que vous voulez rechercher : ', (element) => {
+
+        //test si l'user n'a pas entré de donnée
+        if (element.trim() === ''){
+            console.log('Veuillez entrer un élément à recherche !')
+            return inputItemSearch()
+        }
+
+        searchData(fileLocation, element)
         rl.close()
+    })
+}
+
+function questionUser(){
+    rl.question('Voulez-vous rechercher un élément dans le fichier ? (o/n) : ', (reponse) => {
+        if ((reponse.trim() === '') || !((reponse === 'n') || (reponse === 'o'))){
+            console.log('Veuillez répondre à la question !')
+            return questionUser()
+        }
+        else if ( reponse === 'o'){
+            inputItemSearch()
+        }
+        else if ( reponse === 'n'){
+            console.log('')
+            console.log('-------- Enregistrement terminé --------')
+            console.log('')
+            inputDataUser()
+        }
     })
 }
 
