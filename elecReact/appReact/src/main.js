@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('node:path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -6,11 +6,22 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-function handleSetTitle (event, title) {
-  const webContents = event.sender
-  const win = BrowserWindow.fromWebContents(webContents)
-  win.setTitle(title)
-}
+//-------Communication unidirectionnelle---------
+// function handleSetTitle (event, title) {
+//   const webContents = event.sender
+//   const win = BrowserWindow.fromWebContents(webContents)
+//   win.setTitle(title)
+// }
+
+//-------Communication bidirectionnelle----------
+// async function handleFileOpen () {
+//   const { canceled, filePaths } = await dialog.showOpenDialog({})
+//   if (!canceled) {
+//     return filePaths[0]
+//   }
+// }
+
+
 
 const createWindow = () => {
   // Create the browser window.
@@ -23,12 +34,33 @@ const createWindow = () => {
     },
   });
 
+  const menu = Menu.buildFromTemplate([
+    {
+      label: app.name,
+      submenu: [
+        {
+          click: () => mainWindow.webContents.send('update-counter', 1),
+          label: 'Increment'
+        },
+        {
+          click: () => mainWindow.webContents.send('update-counter', -1),
+          label: 'Decrement'
+        }
+      ]
+    }
+
+  ]);
+
+  Menu.setApplicationMenu(menu)
+
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
-  mainWindow.setMenuBarVisibility(false);
+
+  //Cacher la barre de navigation de la fenêtre d'electron
+  // mainWindow.setMenuBarVisibility(false);
 };
 
 // This method will be called when Electron has finished
@@ -36,7 +68,14 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
 
-  ipcMain.on('set-title', handleSetTitle)
+  //Communication bidirectionnelle
+  // ipcMain.handle('dialog:openFile', handleFileOpen)
+
+  //Communication P.principal vers moteur rendu
+  ipcMain.on('counter-value', (_event, value) => {
+    console.log(value)
+  })
+
   createWindow();
 
   // On OS X it's common to re-create a window in the app when the
