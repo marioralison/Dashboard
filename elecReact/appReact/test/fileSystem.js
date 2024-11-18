@@ -21,23 +21,22 @@ function inputDataUser() {
 
         fs.open(fileLocation, 'a+', (err, fd) => {
             if (err) throw err
-            fs.write(fd, `\n${dataUser}`, (err) => {
+            fs.write(fd, `${dataUser}\n`, (err) => {
                 if (err) throw err
             })
             fs.close(fd, () => {})
         })
-        console.log('Ajout réussi !')
-        console.log('')
+        console.log('Ajout réussi !\n')
         rl.question('Voulez-vous entrer plus de donnée ? (o/n) : ', (answer) => {
 
             //Test si l'user n'a pas entré de donnée
 
             if (answer.toLowerCase() === 'o'){
+                console.log('')
                 inputDataUser()
             }
             else if((answer.toLowerCase() === 'n') || (answer.toLowerCase() !== ('n' || 'o'))){
-                console.log('Arrêt ajout !')
-                console.log('')
+                console.log('Arrêt ajout !\n')
                 questionUser()
             }
         })
@@ -59,14 +58,14 @@ function searchData(file, itemSearch){
     //Initialisation du mot trouvé
     let foundWord = false
     let lineWord = 0
+    const itemSearchLowerCase = itemSearch.toLowerCase()
 
     //Recherche du mot dans le fichier
     rlSearchFile.on('line', (item) => {
         lineWord++
-        if (item.includes(itemSearch)){
-            console.log(`Le mot ${itemSearch} se trouve dans la ligne ${lineWord}`)
+        if (item.toLowerCase().includes(itemSearchLowerCase)){
+            console.log(`Le mot "${itemSearch}" se trouve dans la ligne ${lineWord}`)
             foundWord = true
-            rlSearchFile.close() //Stopper le flux de lecture lorsque le mot est trouvé
         }
     })
 
@@ -74,7 +73,13 @@ function searchData(file, itemSearch){
     rlSearchFile.on('close', () => {
         if(!foundWord){
             console.log(`Ouupss, le mot ${itemSearch} ne se trouve pas dans le fichier !`)
+            console.log('\n-------- Recherche terminé --------\n')
+            inputDataUser()
         }
+        else{
+            console.log('\n-------- Recherche terminé --------\n')
+        }
+        inputDataUser()
     })
 }
 
@@ -87,9 +92,8 @@ function inputItemSearch(){
             console.log('Veuillez entrer un élément à recherche !')
             return inputItemSearch()
         }
-
+        console.log('')
         searchData(fileLocation, element)
-        rl.close()
     })
 }
 
@@ -100,12 +104,11 @@ function questionUser(){
             return questionUser()
         }
         else if ( reponse === 'o'){
+            console.log('')
             inputItemSearch()
         }
         else if ( reponse === 'n'){
-            console.log('')
-            console.log('-------- Enregistrement terminé --------')
-            console.log('')
+            console.log('\n-------- Enregistrement terminé --------\n')
             inputDataUser()
         }
     })
