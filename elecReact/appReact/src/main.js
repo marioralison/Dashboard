@@ -1,5 +1,27 @@
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
+const { rejects } = require('node:assert');
 const path = require('node:path');
+const sqlite3 = require('sqlite3')
+
+//Chemin de la base de donnée
+const dbPath = path.join(__dirname, 'baseDonnee.db')
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.log('Il y a une erreur lors de la connexion à la base de donnée : ', err.message)
+  }
+  else {
+    console.log('Connexion Base donnee done !')
+  }
+})
+
+//Création de la table
+db.run(`CREATE TABLE IF NOT EXISTS Users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  password INTEGER
+)`);
+
+
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -34,24 +56,24 @@ const createWindow = () => {
     },
   });
 
-  const menu = Menu.buildFromTemplate([
-    {
-      label: app.name,
-      submenu: [
-        {
-          click: () => mainWindow.webContents.send('update-counter', 1),
-          label: 'Increment'
-        },
-        {
-          click: () => mainWindow.webContents.send('update-counter', -1),
-          label: 'Decrement'
-        }
-      ]
-    }
+  // const menu = Menu.buildFromTemplate([
+  //   {
+  //     label: app.name,
+  //     submenu: [
+  //       {
+  //         click: () => mainWindow.webContents.send('update-counter', 1),
+  //         label: 'Increment'
+  //       },
+  //       {
+  //         click: () => mainWindow.webContents.send('update-counter', -1),
+  //         label: 'Decrement'
+  //       }
+  //     ]
+  //   }
 
-  ]);
+  // ]);
 
-  Menu.setApplicationMenu(menu)
+  // Menu.setApplicationMenu(menu)
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
@@ -60,21 +82,13 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
 
   //Cacher la barre de navigation de la fenêtre d'electron
-  // mainWindow.setMenuBarVisibility(false);
+  mainWindow.setMenuBarVisibility(false);
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-
-  //Communication bidirectionnelle
-  // ipcMain.handle('dialog:openFile', handleFileOpen)
-
-  //Communication P.principal vers moteur rendu
-  ipcMain.on('counter-value', (_event, value) => {
-    console.log(value)
-  })
 
   createWindow();
 
@@ -99,3 +113,29 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+//---------------------------------------  BASE DE DONNEE -------------------------------------------
+
+//Récupérer les données de la base
+ipcMain.handle('db:getUsers', (event) => {
+  return new Promise((resolve, reject) => {
+      db.all('SELECT * FROM users', [], (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+      });
+  });
+});
+
+//Ajouter un utilisateur dans la base de donnée
+ipcMain.handle('db:addUser', (event, name, password) => {
+  return new Promise((resolve, reject) => {
+    db.run('INSERT INTO Users (name, password) VALUES (?, ?)', [name, password], function (err){
+      if (err) {
+        reject (err)
+      }
+      else {
+        resolve(this.lastID) //L'ID de l'user ajouté
+      }
+    })
+  })
+})
