@@ -4,7 +4,7 @@ const path = require('node:path');
 const sqlite3 = require('sqlite3')
 
 //Chemin de la base de donnée
-const dbPath = path.join(__dirname, 'baseDonnee.db')
+const dbPath = path.join('data.db')
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.log('Il y a une erreur lors de la connexion à la base de donnée : ', err.message)
@@ -135,6 +135,21 @@ ipcMain.handle('db:addUser', (event, name, password) => {
       }
       else {
         resolve(this.lastID) //L'ID de l'user ajouté
+      }
+    })
+  })
+})
+
+ipcMain.handle('user:signIn', (event, name, password) => {
+  return new Promise ((resolve, reject) => {
+    db.all('SELECT Users WHERE name = ? AND password = ?', [name, password], function (err){
+      if(err){
+        console.log(err)
+        reject()
+      }
+      else{
+        // console.log()
+        resolve(true)
       }
     })
   })

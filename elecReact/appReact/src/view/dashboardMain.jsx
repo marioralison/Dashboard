@@ -36,7 +36,7 @@ const Dashboard = () => {
             </nav>
 
             <section className="container">
-                <Print></Print>
+                <Main></Main>
             </section>
         </div>
     )
