@@ -140,16 +140,24 @@ ipcMain.handle('db:addUser', (event, name, password) => {
   })
 })
 
-ipcMain.handle('user:signIn', (event, name, password) => {
+ipcMain.handle('user:signIn', async (event, name, password) => {
   return new Promise ((resolve, reject) => {
-    db.all('SELECT Users WHERE name = ? AND password = ?', [name, password], function (err){
+    db.all(`SELECT id, name 
+            FROM Users 
+            WHERE name = ? AND password = ?`, [name, password], function (err, rows){
+
       if(err){
         console.log(err)
-        reject()
+        reject("Erreur de connexion !")
       }
       else{
-        // console.log()
-        resolve(true)
+        if (rows.length === 1){
+          console.log('Connexion réussi !')
+          resolve(rows[0])
+        }
+        else{
+          reject("Erreur de connexion !")
+        }
       }
     })
   })

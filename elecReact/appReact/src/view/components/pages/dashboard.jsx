@@ -54,11 +54,11 @@ const Main = () => {
                     </CardProduct>
                 </div>
                 <div className="typeProduct">
-                    <CardProduct title='Client enregistré' icon={iconClient} totalProduct = "125" totalPrice="1 200 000 Ar">
+                    <CardProduct title='Client enregistré' icon={iconClient} totalProduct = "125">
                     </CardProduct>
                 </div>
                 <div className="typeProduct">
-                    <CardProduct title="Chiffre d’affaire" icon={iconCash} totalProduct = "125" totalPrice="1 200 000 Ar">
+                    <CardProduct title="Chiffre d’affaire" icon={iconCash} totalProduct = "125">
                     </CardProduct>
                 </div>
             </div>

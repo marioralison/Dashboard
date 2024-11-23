@@ -15,8 +15,8 @@ const SignIn = () => {
     const OnSignIn = async (event) => {
         event.preventDefault()
         try {
-            const userId = await window.electronAPI.signIn(userName, password)
-            console.log('lOGIN SUCESS !')
+            const user = await window.electronAPI.signIn(userName, password)
+            console.log(user)
         } catch (error) {
             console.log('Erreur de connexion !')
         }
