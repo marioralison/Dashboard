@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './styles/login.css';
+import './styles/signUp.css';
 import Logo from './icons/Logo.png';
 import Button from './components/Button.jsx';
 import Card from './components/card.jsx';
@@ -9,16 +9,23 @@ const SignUp = () => {
 
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
+    const [message, setMessage] = useState('')
 
     //Ajouter l'user dans la base de donnée
     
     const userSubmit = async (event) => {
         event.preventDefault()
+
+        if (!userName.trim() || !password.trim()){
+            setMessage("Tous les champs doivent être remplis")
+            return
+        }
+
         try {
             const userId = await window.electronAPI.addUser(userName, password)
-            console.log('User ajouté avec succés !')
+            setMessage("Utilisateur ajouté avec succès !")
         } catch (error) {
-            console.log('Erreur lors de l\'ajout user !')
+            setMessage("Erreur lors de l\'ajout user !")
         }
     }
 
@@ -48,9 +55,10 @@ const SignUp = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <Button title="Enregistrer"></Button>   
+                            <Button title="Enregistrer" className='btnSave'></Button>
                         </form>
                     </div>
+                    {message && <p className='alertMessage'>{message}</p>}
                 </Card>
             </div>
         </div>

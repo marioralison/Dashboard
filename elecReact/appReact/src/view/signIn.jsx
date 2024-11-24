@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './styles/login.css';
+import './styles/signUp.css';
 import Logo from './icons/Logo.png';
 import Button from './components/Button.jsx';
 import Card from './components/card.jsx';
@@ -48,8 +48,8 @@ const SignIn = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <Button title="Se connecter"></Button>   
                         </form>
+                        <Button title="Se connecter"></Button>   
                     </div>
                 </Card>
             </div>

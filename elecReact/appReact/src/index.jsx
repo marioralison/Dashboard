@@ -10,7 +10,7 @@ import Test from './view/components/test/test.jsx';
 const App = () => {
 
     return (
-        <Dashboard></Dashboard>
+        <SignUp></SignUp>
     );
 };
 
