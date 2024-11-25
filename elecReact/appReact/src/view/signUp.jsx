@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './styles/signUp.css';
+import './components/styles/button.css'
 import Logo from './icons/Logo.png';
-import Button from './components/Button.jsx';
 import Card from './components/card.jsx';
 
 
@@ -55,7 +55,7 @@ const SignUp = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <Button title="Enregistrer" className='btnSave'></Button>
+                            <button className='button'>Se connecter</button>
                         </form>
                     </div>
                     {message && <p className='alertMessage'>{message}</p>}

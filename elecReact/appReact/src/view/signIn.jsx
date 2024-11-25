@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import './styles/signUp.css';
 import Logo from './icons/Logo.png';
-import Button from './components/Button.jsx';
 import Card from './components/card.jsx';
+import { useNavigate } from 'react-router-dom';
 
 
 const SignIn = () => {
 
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     //Ajouter l'user dans la base de donnée
-    
     const OnSignIn = async (event) => {
         event.preventDefault()
         try {
@@ -20,6 +20,11 @@ const SignIn = () => {
         } catch (error) {
             console.log('Erreur de connexion !')
         }
+    }
+
+    //Navigation vers le tableau de bord
+    const handleLogin = () => {
+        console.log('Ok ok')
     }
 
     return (
@@ -49,7 +54,7 @@ const SignIn = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </form>
-                        <Button title="Se connecter"></Button>   
+                        <button className='button' onClick={handleLogin}>Se connecter</button>   
                     </div>
                 </Card>
             </div>

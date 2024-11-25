@@ -17,5 +17,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '.webpack'),
     filename: 'main_window.js',
+    publicPath : "./"
   },
 };
