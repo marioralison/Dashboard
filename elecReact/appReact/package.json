@@ -11,7 +11,7 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
     "build": "webpack --config webpack.main.config.js",
-    "rebuild": "electron-rebuild -f -w sqlite3"
+    "rebuild": "electron-rebuild -f -w argon2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -42,7 +42,7 @@
   "license": "MIT",
   "dependencies": {
     "@electron/rebuild": "^3.7.0",
-    "argon2": "^0.41.1",
+    "argon2": "^0.28.3",
     "electron-squirrel-startup": "^1.0.1",
     "flowbite-react": "^0.10.2",
     "node-gyp": "github:nodejs/node-gyp",

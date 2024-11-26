@@ -14,20 +14,24 @@ const SignUp = () => {
     //Ajouter l'user dans la base de donnée
     
     const userSubmit = async (event) => {
-        event.preventDefault()
-
-        if (!userName.trim() || !password.trim()){
-            setMessage("Tous les champs doivent être remplis")
-            return
+        event.preventDefault();
+    
+        if (!userName.trim() || !password.trim()) {
+            setMessage("Tous les champs doivent être remplis");
+            return;
         }
-
+    
         try {
-            const userId = await window.electronAPI.addUser(userName, password)
-            setMessage("Utilisateur ajouté avec succès !")
+            // Envoi du mot de passe à Electron pour le hachage
+            const passwordHashed = await window.electronAPI.mdpHash(password);
+    
+            // Ajout de l'utilisateur avec le mot de passe haché
+            const userId = await window.electronAPI.addUser(userName, passwordHashed);
+            setMessage("Utilisateur ajouté avec succès !");
         } catch (error) {
-            setMessage("Erreur lors de l\'ajout user !")
+            setMessage("Erreur lors de l'ajout de l'utilisateur !");
         }
-    }
+    };
 
     return (
         

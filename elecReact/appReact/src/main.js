@@ -1,5 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
-const { rejects } = require('node:assert');
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 // ---------------- GESTION AU NIVEAU DU POINT D'ENTREE ELECTRON --------------------
 
@@ -15,7 +14,7 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      contextIsolation: true
+      contextIsolation: true,
     },
   });
 
@@ -50,6 +49,8 @@ app.on('window-all-closed', () => {
 //---------------------------------------  GESTION DES REQUETTES -------------------------------------------*
 
 const ajoutUser = require('./controller/userController.js')
+const hashageMPD = require('./model/hashModel.js')
 
 //Ajout utilisateur
 ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
+ipcMain.handle('mdp:hash', hashageMPD.createPassword)

@@ -1,16 +1,13 @@
-const { argon2d } = require('argon2')
-const createPassword = require('../model/hashModel.js')
+const argon2 = require('argon2');
 
+// Fonction pour vérifier le mot de passe
 async function verifyPassword(hash, password) {
     try {
-        return await argon2d.verify(hash, password)
+        return await argon2.verify(hash, password);
     } catch (err) {
-        console.log('Erreur lors de la vérification : ', err)
-        return false
+        console.log('Erreur lors de la vérification :', err);
+        return false;
     }
 }
-(async () => {
-    const password = 'mario633'
-    const hash = await createPassword.password
-    console.log('Hashage généré : ', hash)
-})()
+
+module.exports = { verifyPassword }

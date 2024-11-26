@@ -10,13 +10,7 @@ import Test from './view/components/test/test.jsx';
 const App = () => {
 
     return (
-        <Router>
-            <SignIn></SignIn>
-            <Routes>
-                <Route path="/view/signIn" element={<SignIn/>}></Route>
-                <Route path="/view/dashboard" element={<Dashboard/>}></Route>
-            </Routes>
-        </Router>
+        <SignUp></SignUp>
     );
 };
 
