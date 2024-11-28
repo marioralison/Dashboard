@@ -5,12 +5,11 @@ import './index.css'
 import SignUp from './view/signUp.jsx';
 import SignIn from './view/signIn.jsx';
 import Dashboard from './view/dashboardMain.jsx';
-import Test from './view/components/test/test.jsx';
 
 const App = () => {
 
     return (
-        <SignUp></SignUp>
+        <SignIn></SignIn>
     );
 };
 

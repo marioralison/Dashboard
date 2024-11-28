@@ -2,33 +2,36 @@ import React, {useState} from 'react';
 import './styles/signUp.css';
 import Logo from './icons/Logo.png';
 import Card from './components/card.jsx';
-import { useNavigate } from 'react-router-dom';
 
 
 const SignIn = () => {
 
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
-    const navigate = useNavigate()
 
-    //Ajouter l'user dans la base de donnée
-    const OnSignIn = async (event) => {
-        event.preventDefault()
+    const signIn = async () => {
+
+        if (!userName.trim() || !password.trim()) {
+            console.log('Tous les champs doivent être remplis !')
+            return
+        }
+        
         try {
-            const user = await window.electronAPI.signIn(userName, password)
-            console.log(user)
-        } catch (error) {
-            console.log('Erreur de connexion !')
+            const userData = await window.electronAPI.getUtilisateur(userName)
+            const passwordVerified = await window.electronAPI.mdpVerify(userData.password, password)
+
+            if (passwordVerified) {
+                console.log('Connexion réussi !')
+            } else {
+                console.log('Veuillez verifier votre mot de passe !')
+            }
+
+        } catch (err) {
+            console.log(`"${userName}" n'est pas encore inscrit dans la base de donnée !`)
         }
     }
 
-    //Navigation vers le tableau de bord
-    const handleLogin = () => {
-        console.log('Ok ok')
-    }
-
     return (
-        
         <div className='containerLogin'>
             <div className='logoImage'>
                 <img src={Logo} alt='logo'/>
@@ -40,7 +43,7 @@ const SignIn = () => {
                             <label>Se connecter</label>
                             <p>Veuillez entrer les informations correspondantes</p>
                         </div>
-                        <form className='form' onSubmit={OnSignIn}>
+                        <form className='form'>
                             <input 
                                 type="text"
                                 placeholder='Nom utilisateur'
@@ -54,7 +57,7 @@ const SignIn = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </form>
-                        <button className='button' onClick={handleLogin}>Se connecter</button>   
+                        <button className='button' onClick={signIn}>Se connecter</button>   
                     </div>
                 </Card>
             </div>

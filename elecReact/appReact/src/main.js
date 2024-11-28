@@ -50,7 +50,13 @@ app.on('window-all-closed', () => {
 
 const ajoutUser = require('./controller/userController.js')
 const hashageMPD = require('./model/hashModel.js')
+const verifyMDP = require('./controller/hashController.js')
+const dataUser = require('./model/userModel.js')
 
 //Ajout utilisateur
 ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
+
+//Gestion de mot de passe User
 ipcMain.handle('mdp:hash', hashageMPD.createPassword)
+ipcMain.handle('mdp:Verify', verifyMDP.verifyPassword)
+ipcMain.handle('userDataCollection', dataUser.userData)

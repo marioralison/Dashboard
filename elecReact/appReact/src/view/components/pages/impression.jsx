@@ -24,7 +24,35 @@ const Print = () => {
                 </div>
             </div>
 
-            <div className="printTableau"></div>
+            <div className="blackboard">
+                <div className="tableauContainer">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Client</th>
+                                <th>Format</th>
+                                <th>Nombre</th>
+                                <th>Montant Total</th>
+                                <th>Date impression</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10</td>
+                                <td>Mario</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
         </div>
     )
