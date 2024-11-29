@@ -12,15 +12,12 @@ const Print = () => {
     return(
         <div className="containerPrint">
 
-            <div className="headerPrint">
-                <HeaderMain title='Impressions' iconUser={iconUser} iconNotification={iconNotification}></HeaderMain>
-            </div>
+            <HeaderMain title='Impressions' iconUser={iconUser} iconNotification={iconNotification}></HeaderMain>
 
             <div className="searchSection">
                 <AddButton icon={iconAdd} title='Nouvelle commande'></AddButton>
                 <div className="shortImpression">
                     <Short></Short>
-                    <h3>Total : 250</h3>
                 </div>
             </div>
 
@@ -41,7 +38,147 @@ const Print = () => {
                         <tbody>
                             <tr>
                                 <td>10</td>
-                                <td>Mario</td>
+                                <td>Razanabaovolamirana</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
+                                <td>A4</td>
+                                <td>25</td>
+                                <td>30 000 Ar</td>
+                                <td>12/11/2024</td>
+                                <td className="iconAction">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>Razanabao</td>
                                 <td>A4</td>
                                 <td>25</td>
                                 <td>30 000 Ar</td>
