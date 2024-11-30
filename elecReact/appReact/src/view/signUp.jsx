@@ -1,12 +1,12 @@
+import './styles/signUp.css';
+import './components/styles/button.css'
 import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import './styles/signUp.css';
-import './components/styles/button.css'
+import { useNavigate } from 'react-router-dom';
 
 import Logo from './icons/Logo.png';
 import Card from './components/card.jsx';
-import { useNavigate } from 'react-router-dom';
 
 
 const SignUp = () => {
@@ -14,6 +14,7 @@ const SignUp = () => {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
+    const [role, setRole] = useState('administrateur')
     const [passwordVisibile, setPasswordVisible] = useState(false)
     
     //Navigation
@@ -31,7 +32,7 @@ const SignUp = () => {
     const userSubmit = async (event) => {
         event.preventDefault();
     
-        if (!userName.trim() || !password.trim()) {
+        if (!userName.trim() || !password.trim() || !role.trim()) {
             setMessage("Tous les champs doivent être remplis");
             return;
         }
@@ -40,7 +41,7 @@ const SignUp = () => {
             const passwordHashed = await window.electronAPI.mdpHash(password);
     
             // Ajout de l'utilisateur avec le mot de passe haché
-            const userId = await window.electronAPI.addUser(userName, passwordHashed);
+            const userId = await window.electronAPI.addUser(userName, passwordHashed, role);
             setMessage("Utilisateur ajouté avec succès !");
         } catch (error) {
             setMessage("Erreur lors de l'ajout de l'utilisateur !");
@@ -57,7 +58,7 @@ const SignUp = () => {
                 <Card>
                     <div className='containerForm'>
                         <div className='description'>
-                            <label>Bienvenue</label>
+                            <label className='titleLog'>Bienvenue</label>
                             <p>Veuillez entrer les informations correspondantes</p>
                         </div>
                         <form className='form' onSubmit={userSubmit}>
@@ -87,6 +88,28 @@ const SignUp = () => {
                                 >
                                     <FontAwesomeIcon icon={passwordVisibile ? faEye : faEyeSlash}/>
                                 </button>
+                            </div>
+                            <div className='checkbox'>
+                                <label className='inputCheckbox' htmlFor="admin">
+                                    <input 
+                                        type="radio" 
+                                        id="admin" 
+                                        value="administrateur" 
+                                        name="singUpCheckbox" 
+                                        checked={role === "administrateur"}
+                                        onChange={(e) => setRole(e.target.value)}
+                                    /> Administrateur
+                                </label>
+                                <label className='inputCheckbox' htmlFor="user">
+                                    <input 
+                                        type="radio" 
+                                        id="user" 
+                                        value="utilisateur" 
+                                        name="singUpCheckbox"
+                                        checked={role === "utilisateur"}
+                                        onChange={(e) => setRole(e.target.value)}
+                                    /> Utilisateur
+                                </label>
                             </div>
                             <button className='button'>S'inscrire</button>
                         </form>

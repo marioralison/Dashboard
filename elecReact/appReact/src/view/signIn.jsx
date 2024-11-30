@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
 import './styles/signUp.css';
+import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { userNameState } from '../state.jsx';
 
 import Logo from './icons/Logo.png';
 import Card from './components/card.jsx';
-import { useNavigate } from 'react-router-dom';
 
 
 const SignIn = () => {
 
-    const [userName, setUserName] = useState('')
+    const [userName, setUserName] = useRecoilState(userNameState)
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
     const [passwordVisible, setPasswordVisible] = useState(false)
@@ -63,7 +65,7 @@ const SignIn = () => {
                 <Card>
                     <div className='containerForm'>
                         <div className='description'>
-                            <label>Se connecter</label>
+                            <label className='titleLog'>Se connecter</label>
                             <p>Veuillez entrer les informations correspondantes</p>
                         </div>
                         <form className='form'>

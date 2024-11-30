@@ -1,10 +1,10 @@
 const data = require('./database.js')
 
 //Ajout utilisateur
-const addUser = (name, password) => {
+const addUser = (name, password, poste) => {
     return new Promise((resolve, reject) => {
         const db = data.getDataBase()
-        db.run('INSERT INTO Users (name, password) VALUES (?, ?)', [name, password], function(err) {
+        db.run('INSERT INTO Users (name, password, role) VALUES (?, ?, ?)', [name, password, poste], function(err) {
             if (err) {
                 return reject(err)
             }

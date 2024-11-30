@@ -21,8 +21,6 @@ const Main = () => {
     const [prixTotalA5, setPrixTotalA5] = useState(null)
     const [nombreTotalA4, setNombreTotalA4] = useState(null)
     const [prixTotalA4, setPrixTotalA4] = useState(null)
-    const [products, setProducts] = useState(['A5 imprimé', 'A4 imprimé', 'Cade photo'])
-    const [icons, setIcons] = useState(['icon1', 'icon2', 'icon3'])
 
     const dataA5 = async () => {
         return await window.electronAPI.getA5()
@@ -68,17 +66,7 @@ const Main = () => {
             </div>
 
             <div className="products">
-                {
-                    products.map((product) => {
-                        return(
-                            <div className="typeProduct">
-                                <CardProduct title={product} icon={icon} totalProduct='' totalPrice=''>
-                                </CardProduct>
-                            </div>
-                        )
-                    })
-                }
-                {/* <div className="typeProduct">
+                <div className="typeProduct">
                     <CardProduct title='A5 imprimée' icon={iconGallery} totalProduct={nombreTotalA5} totalPrice={prixTotalA5}>
                     </CardProduct>
                 </div>
@@ -89,7 +77,7 @@ const Main = () => {
                 <div className="typeProduct">
                     <CardProduct title='Cadre vendu' icon={iconFrame} totalProduct = "125" totalPrice="1 200 000 Ar">
                     </CardProduct>
-                </div> */}
+                </div>
                 <div className="typeProduct">
                     <CardProduct title='Client enregistré' icon={iconClient} totalProduct = "125">
                     </CardProduct>
