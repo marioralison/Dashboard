@@ -52,6 +52,7 @@ const ajoutUser = require('./controller/userController.js')
 const hashageMPD = require('./model/hashModel.js')
 const verifyMDP = require('./controller/hashController.js')
 const dataUser = require('./model/userModel.js')
+const { getA5, getA4} = require('./model/productModel.js')
 
 //Ajout utilisateur
 ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
@@ -60,3 +61,5 @@ ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
 ipcMain.handle('mdp:hash', hashageMPD.createPassword)
 ipcMain.handle('mdp:Verify', verifyMDP.verifyPassword)
 ipcMain.handle('userDataCollection', dataUser.userData)
+ipcMain.handle('A5Collection', getA5)
+ipcMain.handle('A4Collection', getA4)
