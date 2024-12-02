@@ -8,6 +8,7 @@ import { userNameState } from '../state.jsx';
 
 import Logo from './icons/Logo.png';
 import Card from './components/card.jsx';
+import { verifyPassword } from '../controller/hashController.js';
 
 
 const SignIn = () => {
@@ -40,10 +41,10 @@ const SignIn = () => {
         }
         
         try {
-            const userData = await window.electronAPI.getUtilisateur(userName)
-            const passwordVerified = await window.electronAPI.mdpVerify(userData.password, password)
+            // const userData = await window.electronAPI.getUtilisateur(userName)
+            const isVerified = await window.electronAPI.mdpVerify(userName, password)
 
-            if (passwordVerified) {
+            if (isVerified) {
                 setMessage("Connexion réussi !")
                 setTimeout(() => {
                     navigateToMain()

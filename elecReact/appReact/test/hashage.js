@@ -1,10 +1,33 @@
-const { hashPassword } = require('../src/Model/hashModel.js')
-const { verifyPassword } = require('../src/controller/hashController.js')
+const argon = require('argon2')
 
-//Générer un mot de passe haché
-const createPassword = async (password) => {
-    const hash = await hashPassword(password)
-    console.log('Hashage généré : ', hash)
+async function hashmdp(password) {
+    return await argon.hash(password, {
+        type: argon.argon2id,
+        memoryCost: 2 ** 16,
+        timeCost: 4,
+        parallelism: 2
+    })
 }
 
-module.exports = { createPassword }
+const mot = 'mario'
+
+hashmdp(mot)
+    .then( async (result) => {
+        const newMdp = 'mario'
+        try{
+            const verification = await argon.verify(result, newMdp)
+
+            if (verification){
+                console.log('Mot de passe valide !')
+            }
+            else {
+                console.log('Oupss, mot de passe invalide !')
+            }
+
+        } catch (err) {
+            console.log('Erreur lors de la verification de mot de passe !')
+        }
+    })
+    .catch((err) => {
+        console.log('Erreur ! ',err)
+    })

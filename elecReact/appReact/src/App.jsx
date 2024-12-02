@@ -2,6 +2,7 @@ import * as React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import './index.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import SignUp from './view/signUp.jsx';
 import SignIn from './view/signIn.jsx';

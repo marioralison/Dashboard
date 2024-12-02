@@ -61,7 +61,8 @@ const Dashboard = () => {
 
             <section className="container">
                 {/* Affichage dynamique du composant */}
-                {renderComponent()}
+                {/* {renderComponent()} */}
+                <Print></Print>
             </section>
         </div>
     )
