@@ -8,7 +8,6 @@ import { userNameState } from '../state.jsx';
 
 import Logo from './icons/Logo.png';
 import Card from './components/card.jsx';
-import { verifyPassword } from '../controller/hashController.js';
 
 
 const SignIn = () => {
@@ -41,8 +40,13 @@ const SignIn = () => {
         }
         
         try {
-            // const userData = await window.electronAPI.getUtilisateur(userName)
+            const userNameInput = await window.electronAPI.getNameUser(userName)
             const isVerified = await window.electronAPI.mdpVerify(userName, password)
+
+            if (userNameInput.exist == false){
+                setMessage(`" ${userName} " n'existe pas dans la base de donnée`)
+                return
+            }
 
             if (isVerified) {
                 setMessage("Connexion réussi !")
@@ -53,7 +57,7 @@ const SignIn = () => {
                 setMessage("Veuillez verifier votre mot de passe !")
             }
         } catch (err) {
-            setMessage(`"${userName}" n'existe pas dans la base de donnée`)
+            setMessage(`" ${userName} " n'existe pas dans la base de donnée`)
         }
     }
 

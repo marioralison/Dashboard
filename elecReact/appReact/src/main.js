@@ -60,6 +60,6 @@ ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
 //Gestion de mot de passe User
 ipcMain.handle('mdp:hash', hashageMPD.createPassword)
 ipcMain.handle('mdp:Verify', verifyMDP.verificationMdp)
-ipcMain.handle('userDataCollection', dataUser.userData)
+ipcMain.handle('userNameData', dataUser.user)
 ipcMain.handle('A5Collection', getA5)
 ipcMain.handle('A4Collection', getA4)

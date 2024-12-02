@@ -1,6 +1,5 @@
 const argon2 = require('argon2');
 const data = require('../model/database.js');
-const { faL } = require('@fortawesome/free-solid-svg-icons');
 
 // Fonction pour vérifier le mot de passe
 async function verificationMdp(event, name, inputPassword) {
