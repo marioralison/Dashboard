@@ -22,24 +22,46 @@ const Main = () => {
     const [nombreTotalA4, setNombreTotalA4] = useState(null)
     const [prixTotalA4, setPrixTotalA4] = useState(null)
 
-    const dataA5 = async () => {
-        return await window.electronAPI.getA5()
-    } 
+    //Contenu produit
+    const products = [
+        {
+            nom: "A5 imprimé",
+            nombre: "250",
+            prix: "2500 Ar",
+            icon: './src/view/icons/Gallery.png'
+        },
+        {
+            nom: "A5 imprimé",
+            nombre: "250",
+            prix: "2500 Ar",
+            icon: './src/view/icons/Gallery.png'
+        },
+        {
+            nom: "A5 imprimé",
+            nombre: "250",
+            prix: "2500 Ar",
+            icon: './src/view/icons/Gallery.png'
+        },
+    ]
 
-    const dataA4 = async () => {
-        return await window.electronAPI.getA4()
-    }
+    // const dataA5 = async () => {
+    //     return await window.electronAPI.getA5()
+    // } 
+
+    // const dataA4 = async () => {
+    //     return await window.electronAPI.getA4()
+    // }
     
-    dataA5().then((prix) => {
-        setNombreTotalA5(prix.nombreTotalA5)
-        setPrixTotalA5(prix.totalPrixVenteA5)
-    })
+    // dataA5().then((prix) => {
+    //     setNombreTotalA5(prix.nombreTotalA5)
+    //     setPrixTotalA5(prix.totalPrixVenteA5)
+    // })
 
-    dataA4().then((prix) => {
-        console.log(prix)
-        setNombreTotalA4(prix.nombreTotalA4)
-        setPrixTotalA4(prix.totalPrixVenteA4)
-    })
+    // dataA4().then((prix) => {
+    //     console.log(prix)
+    //     setNombreTotalA4(prix.nombreTotalA4)
+    //     setPrixTotalA4(prix.totalPrixVenteA4)
+    // })
 
     return(
         <div className="containerTableau">
@@ -66,18 +88,16 @@ const Main = () => {
             </div>
 
             <div className="products">
-                <div className="typeProduct">
-                    <CardProduct title='A5 imprimée' icon={iconGallery} totalProduct={nombreTotalA5} totalPrice={prixTotalA5}>
-                    </CardProduct>
-                </div>
-                <div className="typeProduct">
-                    <CardProduct title='A4 imprimée' icon={iconImage} totalProduct={nombreTotalA4} totalPrice={prixTotalA4}>
-                    </CardProduct>
-                </div>
-                <div className="typeProduct">
-                    <CardProduct title='Cadre vendu' icon={iconFrame} totalProduct = "125" totalPrice="1 200 000 Ar">
-                    </CardProduct>
-                </div>
+                {
+                    products.map((product) => {
+                        return(
+                            <div className="typeProduct">
+                                <CardProduct title={product.nom} icon={product.icon} totalProduct ={product.nombre} totalPrice={product.prix}>
+                                </CardProduct>
+                            </div>
+                        )
+                    })
+                }
                 <div className="typeProduct">
                     <CardProduct title='Client enregistré' icon={iconClient} totalProduct = "125">
                     </CardProduct>

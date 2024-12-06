@@ -15,8 +15,8 @@ const HeaderMain = (props) => {
                     <div className="user">
                         <img src={props.iconUser} alt="iconUser" className="icon"/>
                         <div className="UserInfo">
-                            <h3>{userName}</h3>
-                            <h5>Manager du multiservice</h5>
+                            <h3 className="nomUser">{userName}</h3>
+                            <h5 className="roleUser">Manager du multiservice</h5>
                         </div>
                     </div>
                 </div>

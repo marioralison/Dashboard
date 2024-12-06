@@ -1,4 +1,4 @@
-.containerPrint{
+.containerClient{
     height: 95%;
     width: 95%;
     display: flex;
@@ -28,7 +28,7 @@
     height: 7%;
 }
 
-.shortImpression{
+.shortClient{
     display: flex;
     align-items: center;
     gap: 2rem;

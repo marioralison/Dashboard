@@ -16,7 +16,7 @@
     display: flex;
     text-align: center;
     height: 100%;
-    width: 7rem;
+    width: 9rem;
 }
 
 .shortSelection input{
@@ -24,10 +24,10 @@
 }
 
 .shortSelection input:checked + .selection{
+    cursor: pointer;
     background-color: var(--backgroundBtn);
     color: #ffffff;
     display: flex;
-    cursor: pointer;
     align-items: center;
     justify-content: center;
     border-radius: 0.7rem;

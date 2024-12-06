@@ -5,3 +5,16 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.titre{
+    font-family: semiBold;
+}
+
+.nomUser{
+    font-size: 26px;
+    font-family: semiBold;
+}
+
+.roleUser{
+    font-size: 16px;
+}

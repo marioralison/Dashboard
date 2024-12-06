@@ -1,0 +1,162 @@
+.modalClientBackground{
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.modalClientContainer{
+    position: relative;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow:  17px 20px 30px rgba(44, 44, 44, 0.15);
+    border-radius: 15px;
+    padding: 60px 50px;
+    width: 70%;
+    height: 65%;
+}
+
+.modalBodyClient{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+/* ----------------------------------------- */
+
+.modalBodyClient .header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 17%;
+}
+
+.modalBodyClient .header h3{
+    font-family: semiBold;
+    font-size: 36px;
+}
+
+/* ------------------------------------------ */
+
+.modalBodyClient .body{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 65%;
+}
+
+.modalBodyClient .body .photoSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    height: 100%;
+    /* border: 1px solid black; */
+}
+
+.modalBodyClient .body .photoSection .photoClient{
+    width: 300px;
+    height: 300px;
+    background-color: #E9E9E9;
+    border-radius: 50%;
+}
+
+.modalBodyClient .body .infoClient{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15%;
+    width: 65%;
+    height: 100%;
+    padding: 0 3%;
+    /* border: 1px solid black; */
+}
+
+.modalBodyClient .subtitleInput{
+    font-size: 12px;
+    margin-left: 10px;
+    color: rgb(32, 32, 32);
+}
+
+.modalBodyClient .inputModal{
+    width: 100%;
+    height: 50px;
+    border: none;
+    font-size: 14px;
+    font-family: regular;
+}
+
+.modalBodyClient .inputSection{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 6%;
+}
+
+.modalBodyClient .inputSection .inputChild{
+    height: 50px;
+    width: 48%;
+}
+
+.modalBodyClient .subtitleInput{
+    font-size: 12px;
+    margin-left: 10px;
+    color: rgb(32, 32, 32);
+}
+
+/* ------------------------------------------- */
+
+.modalBodyClient .footer{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10%;
+    padding-top: 2%;
+    width: 100%;
+    height: 18%;
+}
+
+.modalBodyClient .footer button{
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: regular;
+    cursor: pointer;
+    width: 30%;
+    height: 50px;
+}
+
+.modalBodyClient .footer .btnAddCommand{
+    background-color: var(--backgroundBtn);
+    color: #ffffff;
+    border: none;
+}
+
+.modalBodyClient .footer .btnCancel{
+    color: #000000;
+    background-color: #ffffff;
+    border: 0.7px solid black;
+}
+
+/* --------------- All inputs ------------------- */
+
+.modalBodyClient .body input{
+    background-color: #E9E9E9;
+    color: #080808;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    padding-left: 15px;
+    border-radius: 10px;
+}

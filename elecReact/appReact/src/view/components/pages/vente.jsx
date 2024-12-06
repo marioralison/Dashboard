@@ -1,4 +1,4 @@
-import '../styles/print.css';
+import '../styles/vente.css';
 import React, { useState } from "react";
 
 import iconNotification from '../../icons/Notification.png';
@@ -8,9 +8,9 @@ import iconAdd from '../../icons/Add.png'
 import HeaderMain from "../headerMain.jsx";
 import AddButton from "../addButton.jsx";
 import Short from "../shortType.jsx";
-import ModalPrint from '../modalPrint.jsx';
+import ModalVente from '../modalVente.jsx';
 
-const Print = () => {
+const Vente = () => {
 
     const [openModal, setOpenModal] = useState(false)
 
@@ -19,14 +19,14 @@ const Print = () => {
     }
 
     return(
-        <div className="containerPrint">
+        <div className="containerVente">
 
-            <HeaderMain title='Impressions' iconUser={iconUser} iconNotification={iconNotification}></HeaderMain>
+            <HeaderMain title='Vente effectuée' iconUser={iconUser} iconNotification={iconNotification}></HeaderMain>
 
             <div className="searchSection">
-                <li onClick={handleModal}><AddButton icon={iconAdd} title='Nouvelle commande'></AddButton></li>
-                <div className="shortImpression">
-                    <Short option1='Client' option2='Membre'></Short>
+                <li onClick={handleModal}><AddButton icon={iconAdd} title='Nouvelle vente'></AddButton></li>
+                <div className="shortVente">
+                    <Short option1='Cadre' option2='Papier'></Short>
                 </div>
             </div>
 
@@ -37,10 +37,10 @@ const Print = () => {
                             <tr>
                                 <th>N°</th>
                                 <th>Client</th>
-                                <th>Format</th>
+                                <th>Catégorie</th>
                                 <th>Nombre</th>
                                 <th>Montant Total</th>
-                                <th>Date impression</th>
+                                <th>Date vente</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -48,9 +48,9 @@ const Print = () => {
                             <tr>
                                 <td>10</td>
                                 <td>Razanabaovolamirana</td>
-                                <td>A4</td>
-                                <td>25</td>
-                                <td>30 000 Ar</td>
+                                <td>Cadre A4</td>
+                                <td>11</td>
+                                <td>2000 Ar</td>
                                 <td>12/11/2024</td>
                                 <td className="iconAction">
                                 </td>
@@ -60,10 +60,10 @@ const Print = () => {
                 </div>
             </div>
 
-            {openModal && <ModalPrint closeModal={setOpenModal}/>}
+            {openModal && <ModalVente closeModal={setOpenModal}/>}
 
         </div>
     )
 }
 
-export default Print;
+export default Vente;

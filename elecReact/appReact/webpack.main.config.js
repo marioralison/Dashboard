@@ -19,4 +19,7 @@ module.exports = {
     filename: 'main_window.js',
     publicPath : "./"
   },
+  externals: {
+    sqlite3: "commonjs sqlite3"
+  },
 };

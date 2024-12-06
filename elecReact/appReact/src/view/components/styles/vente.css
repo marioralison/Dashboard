@@ -1,4 +1,4 @@
-.containerPrint{
+.containerVente{
     height: 95%;
     width: 95%;
     display: flex;
@@ -28,7 +28,7 @@
     height: 7%;
 }
 
-.shortImpression{
+.shortVente{
     display: flex;
     align-items: center;
     gap: 2rem;
