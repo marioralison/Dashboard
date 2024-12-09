@@ -37,9 +37,9 @@ const Client = () => {
                             <tr>
                                 <th>Matricule</th>
                                 <th>Client</th>
+                                <th>Lieu travail</th>
                                 <th>Total photo</th>
                                 <th>A4 imprimé</th>
-                                <th>Lieu travail</th>
                                 <th>Téléphone</th>
                                 <th>Action</th>
                             </tr>
@@ -48,9 +48,9 @@ const Client = () => {
                             <tr>
                                 <td>10</td>
                                 <td>Razanabaovolamirana</td>
+                                <td>Antananarivo</td>
                                 <td>200</td>
                                 <td>11</td>
-                                <td>Antananarivo</td>
                                 <td>12/11/2024</td>
                                 <td className="iconAction">
                                 </td>
