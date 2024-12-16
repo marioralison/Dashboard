@@ -9,7 +9,7 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = () => {
-  // Create the browser window.
+  // Create the browser window.Dilao
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -54,10 +54,40 @@ const hashageMPD = require('./model/hashModel.js')
 const verifyMDP = require('./controller/hashController.js')
 const dataUser = require('./model/userModel.js')
 const addClient = require('./controller/clientController.js');
+const getClient = require('./controller/clientController.js');
+const deleteClient = require('./controller/clientController.js')
+const updateClient = require('./controller/clientController.js')
 const path = require('path');
 
 //Ajout client
 ipcMain.handle('data:addClient', addClient.addClient)
+
+//Récupérer les lignes de données du table client
+ipcMain.handle('row:client', getClient.getClient)
+
+//Suppression d'un client avec le matricule correspondant
+ipcMain.handle('data:deleteClient', async (event, matricule) => {
+  try {
+
+    const result = await deleteClient.deleteClient(matricule)
+    return result
+
+  } catch (error) {
+    console.log('Il y a une erreur lors de la suppression du client')
+    return {success: false, message: error.message}
+  }
+})
+
+//Mise à jour des informations du client
+ipcMain.handle('data:updateClient', async (event, matricule, nameClient, lieuTravail, numberPhone) => {
+  try {
+    const result = await updateClient.updateClient(matricule, nameClient, lieuTravail, numberPhone)
+    return result
+
+  } catch (error) {
+    console.log('Erreur lors de la mise à jour information client', error.message)
+  }
+})
 
 //Ajout utilisateur
 ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
@@ -67,27 +97,3 @@ ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
 ipcMain.handle('mdp:hash', hashageMPD.createPassword)
 ipcMain.handle('mdp:Verify', verifyMDP.verificationMdp)
 ipcMain.handle('userNameData', dataUser.user)
-
-//Importation d'image
-ipcMain.handle('selection:Image', async () => {
-  const result = await dialog.showOpenDialog({
-    title: 'Sélectionnez une image',
-    filters: [
-      {name: 'Images', extensions: ['jpg', 'jpeg', 'png']}
-    ],
-    properties: ['openFile']
-  })
-
-  //Verification si l'image a été sélectionnée
-  if (result.canceled || result.filePaths.length === 0){
-    return null
-  }
-
-  const selectedImagePath = result.filePaths[0]
-  const destinationPath = path.join('./assets/images', path.basename(selectedImagePath))
-
-  //Copie de l'image dans le dossier de destination
-  fs.copyFileSync(selectedImagePath, destinationPath)
-
-  return destinationPath
-})

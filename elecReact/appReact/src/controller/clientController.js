@@ -1,75 +1,85 @@
-const { resolve } = require('path')
 const data = require('../model/database.js')
 const db = data.getDataBase()
 
-//Génération du matricule
-const generateMatricule = (id, year = new Date().getFullYear()) => {
-    return `${year}/${id.toString().padStart(4, '0')}`; //Formatage du matricule
-}
-
-//Récuprer le prochain matricule
-const getNextMatricule = () => {
-    return new Promise((resolve, reject) => {
-        db.get('SELECT lastMatricule FROM MatriculeSequence', (err, row) => {
-            if(err){
-                return reject(err)
-            }
-            if(!row || typeof row.lastMatricule != 'number'){
-                return reject(new Error('La sequence "lastMatricule" est introuvable ou invalide'))
-            }
-            else {
-                const nextMatricule = row.lastMatricule + 1; //Incrémente le matricule initial
-                resolve(nextMatricule) //Retourne le prochain matricule
-            }
-        })
-    })
-}
-
-//Mise à jour de la séquence après la génération du matricule
-const updateMatriculeSequence = (newMatriculeSequence) => {
-    return new Promise((resolve, reject) => {
-        db.run('UPDATE MatriculeSequence SET lastMatricule = ?', [newMatriculeSequence], (err) => {
-            if (err) {
-                reject(err)
-            }
-            else{
-                resolve(); //La séquence est mise à jour avec succès
-            }
-        })
-    })
-}
-
 //Insertion des données du client
-const insertClient = (matricule, nomClient, lieuTravail, domicile, numeroPhone) => {
+const insertClient = (matricule, nomClient, lieuTravail, numeroPhone) => {
     return new Promise((resolve, reject) => {
         db.run(`
-            INSERT INTO Clients (matricule, nameClient, lieuTravail, domicile, numberPhone)
-            VALUES (?, ?, ?, ?, ?)`,
-            [matricule, nomClient, lieuTravail, domicile, numeroPhone],
+            INSERT INTO Clients (matricule, nameClient, lieuTravail, numberPhone)
+            VALUES (?, ?, ?, ?)`,
+            [matricule, nomClient, lieuTravail, numeroPhone],
             function (err){
                 if (err){
                     return reject(err)
                 }
-                resolve()
+                resolve({success: true})
             }
         )
     })
 }
 
-const addClient = async (event, nomClient, lieuTravail, domicile, numeroPhone) => {
+const addClient = async (event, matricule, nomClient, lieuTravail, numeroPhone) => {
     try {
-        const nextMatricule = await getNextMatricule()
-        const matricule = generateMatricule(nextMatricule)
-
-        await insertClient(matricule, nomClient, lieuTravail, domicile, numeroPhone)
-        await updateMatriculeSequence(nextMatricule)
-
-        console.log('Client ajouté avec succès, Matricule : ', matricule)
-
+        await insertClient(matricule, nomClient, lieuTravail, numeroPhone)
+        console.log('Client ajouté avec succès !')
     } catch (error) {
         console.log('Erreur lors de la génération du matricule : ', error.message)
         throw error
     }
 }
 
-module.exports = {addClient}
+const getClient = () => {
+    return new Promise((resolve, reject) => {
+        db.all('SELECT * FROM Clients', [], (err, rows) => {
+            if (err){
+                reject(err)
+            }
+            resolve(rows)
+        })
+    })
+}
+
+const deleteClient = (matricule) => {
+    return new Promise((resolve, reject) => {
+        db.run('DELETE FROM Clients WHERE matricule = ?', [matricule], (err) => {
+            if (err){
+                reject({ success: false, message: err.message });
+            }
+            else{
+                if (this.change === 0){
+                    //Si aucune ligne n'a été supprimé
+                    resolve({success: false, message: "Aucun client trouvé avec ce matricule"})
+                }
+                else{
+                    resolve({success: true})
+                }
+            }
+        })
+    })
+}
+
+const updateClient = (matricule, nameClient, lieuTravail, numberPhone) => {
+    return new Promise((resolve, reject) => {
+        db.run(`
+            UPDATE Clients
+            SET nameClient = ?, lieuTravail = ?, numberPhone = ?
+            WHERE matricule = ?
+        `, [nameClient, lieuTravail, numberPhone, matricule],
+        function (err) {
+            if (err) {
+                reject({success: false, message: err.message})
+            }
+            else {
+                if (this.change === 0) {
+                    //Si aucune ligne n'a été mise à jour
+                    resolve({success: false, message: "Aucun client trouvé avec ce matricule"})
+                }
+                else {
+                    resolve({success: true})
+                }
+            }
+        }
+    )})
+}
+
+module.exports = {addClient, getClient, deleteClient, updateClient}

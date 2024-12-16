@@ -99,3 +99,10 @@ table tr {
 ::-webkit-scrollbar-thumb:hover{
     background: #437388;
 }
+
+.blackboard .tableauContainer .Action button{
+    width: fit-content;
+    gap: 10px;
+    background: none;
+    border: none;
+}
