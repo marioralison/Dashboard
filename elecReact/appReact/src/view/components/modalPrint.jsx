@@ -1,34 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/ModalPrint.css'
 
 const ModalPrint = ({closeModal}) => {
 
-    const [valueClient, setValueClient] = useState('')
-    const [valueFormat, setValueFormat] = useState('')
-
-    const optionClient = [
-        {label: 'Membre', value: 'clientMembre'},
-        {label: 'Client Simple', value: 'clientSimple'}
-    ]
-
-    const optionFormat = [
-        {label: 'A3', value: 'A3'},
-        {label: 'A4', value: 'A4'},
-        {label: 'A5 (10 x 15)', value: 'A5'}
-    ]
-
-    function handleOptionClient(e){
-        setValueClient(e.target.value)
-    }
-
-    function handleOptionFormat(e){
-        setValueFormat(e.target.value)
-    }
+    const [valueClient, setValueClient] = useState('simple')
+    const [clientMatch, setClientMatch] = useState([])
+    const [optionFormat, setOptionFormat] = useState([])
+    const [impressionProduct, setImpressionProduct] = useState([])
+    const [currentDate, setCurrentDate] = useState('')
 
     const handleBackgroundClick = (e) => {
         if(e.target.className === 'modalBackground') {
             closeModal(false)
         }
+    }
+
+    const optionClient = [
+        {label: 'Client simple', value: 'simple'},
+        {label: 'Membre', value: 'membre'}
+    ]
+
+    //Récupérer le client
+    const checkClientByName = async () => {
+        const lowerCaseNameClient = valueClient.toLowerCase()
+        try {
+            const clients = await window.electronAPI.getClientByName(lowerCaseNameClient)
+            console.log(clients)
+        } catch (error) {
+            console.log("Erreur lors de la recherche du client", error.message)
+        }
+    }
+
+    //Séléction du client correspondant
+    const handleClientSelection = (id) => {
+        setClienId(id)
+        setClientMatch([])
+    }
+
+    //Récupérer tous les produits
+    const fetchProducts = async () => { 
+        try {
+
+            const data = await window.electronAPI.getProduct()
+            const filtreImpressionProduct = data.filter((product) => product.categorie === 'Impression')
+            setImpressionProduct(filtreImpressionProduct)
+            const formats = [
+                ...new Set(filtreImpressionProduct.map((product) => product.tailleProduit)),
+            ].map((format) => ({ label: format, value: format }));
+            setOptionFormat(formats);
+
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    useEffect(() => {
+        const today = new Date()
+        const formattedDate = today.toISOString().split('T')[0]
+        setCurrentDate(formattedDate)
+        fetchProducts()
+    }, [])
+
+    function handleOptionClient(e){
+        setValueClient(e.target.value)
     }
 
     return(
@@ -45,7 +79,7 @@ const ModalPrint = ({closeModal}) => {
                                 {
                                     optionClient.map(option => {
                                         return(
-                                            <option value={option.value}>{option.label}</option>
+                                            <option key={option.value} value={option.value}>{option.label}</option>
                                         )
                                     }) 
                                 }
@@ -53,7 +87,14 @@ const ModalPrint = ({closeModal}) => {
                         </div>
                         <div className='inputModal'>
                             <h6 className='subtitleInput'>Nom client</h6>
-                            <input type="text" placeholder='Entrer le nom du client'/>
+                            <input 
+                                type="text"
+                                placeholder='Entrer le nom du client'
+                                value={valueClient}
+                                onChange={(e) => setValueClient(e.target.value)}
+                                onBlur={checkClientByName}
+                                disabled={valueClient === 'simple'}
+                            />
                         </div>
                         <div className='inputSection'>
                             <div className='inputChild'>
@@ -62,20 +103,22 @@ const ModalPrint = ({closeModal}) => {
                             </div>
                             <div className='inputChild'>
                                 <h6 className='subtitleInput'>Format</h6>
-                                <select className='option' onChange={handleOptionFormat}>
-                                    {
-                                        optionFormat.map(option => {
-                                            return(
-                                                <option value={option.value}>{option.label}</option>
-                                            )
-                                        })
-                                    }
+                                <select className="option">
+                                    <option value="">Sélectionner un format</option>
+                                    {optionFormat.map((option) => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
                         <div className='inputModal'>
-                            <h6 className='subtitleInput'>Date impression</h6>
-                            <input type="date" placeholder='Entrer la date impression'/>
+                            <h6 className='subtitleInput'>Date commande</h6>
+                            <input 
+                                type="date"
+                                value={currentDate}
+                                onChange={(e) => setCurrentDate(e.target.value)}/>
                         </div>
                     </div>
                     <div className="footer">

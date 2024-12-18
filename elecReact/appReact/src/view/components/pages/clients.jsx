@@ -41,8 +41,7 @@ const Client = () => {
             const result = clientToEdit
                 ? await window.electronAPI.updateClient(matricule, nameClient, lieuTravail, numberPhone)
                 : await window.electronAPI.addClient(matricule, nameClient, lieuTravail, numberPhone)
-            fetchClient()
-
+            
         } catch (error) {
             console.error("Erreur de la fonction de sauvegarde !", error.message)
         }
@@ -137,7 +136,6 @@ const Client = () => {
                     onSave={handleSaveDataClient}
                 />
             }
-
         </div>
     )
 }

@@ -1,4 +1,4 @@
-const user = require('../model/userModel.js')
+const data = require('../../model/database.js')
 
 const handleAddUser = async (event, name, password, role) => {
     try {

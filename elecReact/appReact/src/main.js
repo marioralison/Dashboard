@@ -49,23 +49,25 @@ app.on('window-all-closed', () => {
 
 //---------------------------------------  GESTION DES REQUETTES -------------------------------------------*
 
-const ajoutUser = require('./controller/userController.js')
+const ajoutUser = require('./controller/user/userController.js')
 const hashageMPD = require('./model/hashModel.js')
-const verifyMDP = require('./controller/hashController.js')
+const verifyMDP = require('./controller/user/hashController.js')
 const dataUser = require('./model/userModel.js')
-const addClient = require('./controller/clientController.js');
-const getClient = require('./controller/clientController.js');
-const deleteClient = require('./controller/clientController.js')
-const updateClient = require('./controller/clientController.js')
-const path = require('path');
 
-//Ajout client
+const addClient = require('./controller/client/clientController.js');
+const getClient = require('./controller/client/clientController.js');
+const getClientByName = require('./controller/client/clientController.js')
+const deleteClient = require('./controller/client/clientController.js')
+const updateClient = require('./controller/client/clientController.js')
+
+const getProducts = require('./controller/products/productController.js')
+
+
+//--------------------------GESTION CLIENT-----------------------
+
 ipcMain.handle('data:addClient', addClient.addClient)
-
-//Récupérer les lignes de données du table client
 ipcMain.handle('row:client', getClient.getClient)
-
-//Suppression d'un client avec le matricule correspondant
+ipcMain.handle('getClientByName', getClientByName.getClientByName)
 ipcMain.handle('data:deleteClient', async (event, matricule) => {
   try {
 
@@ -78,7 +80,6 @@ ipcMain.handle('data:deleteClient', async (event, matricule) => {
   }
 })
 
-//Mise à jour des informations du client
 ipcMain.handle('data:updateClient', async (event, matricule, nameClient, lieuTravail, numberPhone) => {
   try {
     const result = await updateClient.updateClient(matricule, nameClient, lieuTravail, numberPhone)
@@ -89,11 +90,26 @@ ipcMain.handle('data:updateClient', async (event, matricule, nameClient, lieuTra
   }
 })
 
+
+
+//-------------------------GESTION UTILISATEUR------------------------
+
 //Ajout utilisateur
 ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
-
 
 //Gestion de mot de passe User
 ipcMain.handle('mdp:hash', hashageMPD.createPassword)
 ipcMain.handle('mdp:Verify', verifyMDP.verificationMdp)
 ipcMain.handle('userNameData', dataUser.user)
+
+
+
+//-------------------------GESTION PRODUITS-----------------------------
+ipcMain.handle('getProduct', async () => {
+  try {
+    const result = await getProducts.getProduct()
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de collection de produits' ,error.message)
+  }
+})

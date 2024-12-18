@@ -1,5 +1,5 @@
 const argon2 = require('argon2');
-const data = require('../model/database.js');
+const data = require('../../model/database.js')
 
 // Fonction pour vérifier le mot de passe
 async function verificationMdp(event, name, inputPassword) {

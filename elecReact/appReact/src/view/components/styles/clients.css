@@ -102,7 +102,6 @@ table tr {
 
 .blackboard .tableauContainer .Action button{
     width: fit-content;
-    gap: 10px;
     background: none;
     border: none;
 }
