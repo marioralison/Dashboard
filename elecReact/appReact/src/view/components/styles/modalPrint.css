@@ -151,3 +151,28 @@
     padding-left: 15px;
     border-radius: 10px;
 }
+
+.clientDropdown {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.clientOption {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.clientOption:hover {
+    background-color: #f0f0f0;
+}

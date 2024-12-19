@@ -22,9 +22,8 @@ const ModalPrint = ({closeModal}) => {
 
     //Récupérer le client
     const checkClientByName = async () => {
-        const lowerCaseNameClient = valueClient.toLowerCase()
         try {
-            const clients = await window.electronAPI.getClientByName(lowerCaseNameClient)
+            const clients = await window.electronAPI.getClientByName(valueClient.trim())
             console.log(clients)
         } catch (error) {
             console.log("Erreur lors de la recherche du client", error.message)

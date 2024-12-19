@@ -1,4 +1,3 @@
-const { error } = require('node-gyp/lib/log.js')
 const data = require('../../model/database.js')
 const db = data.getDataBase()
 
@@ -84,12 +83,17 @@ const updateClient = (matricule, nameClient, lieuTravail, numberPhone) => {
 }
 
 const getClientByName = async (name) => {
-    const query = 'SELECT * FROM Clients WHERE LOWER(nameCLient) = ?'
+    const query = 'SELECT * FROM Clients WHERE LOWER(nameCLient) LIKE LOWER(?)'
     return new Promise((resolve, reject) => {
-        db.all(query, [name], (err, rows) => {
+        db.all(query, [`%${name}%`], (err, rows) => {
             if (err) {
-                reject({exist: false, message: 'Client introuvable dans la base de donnée !'})
+                reject(err)
             }
+
+            if (rows.length === 0){
+                resolve([])
+            }
+
             resolve(rows)
         })
     })

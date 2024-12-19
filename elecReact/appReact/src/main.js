@@ -67,10 +67,18 @@ const getProducts = require('./controller/products/productController.js')
 
 ipcMain.handle('data:addClient', addClient.addClient)
 ipcMain.handle('row:client', getClient.getClient)
-ipcMain.handle('getClientByName', getClientByName.getClientByName)
+
+ipcMain.handle('getClientByName', async(event, name) => {
+  try {
+    const result = await getClientByName.getClientByName(name)
+    return result
+  } catch (error) {
+    console.log('Erreur lors de la collection du nom client',error.message)
+  }
+})
+
 ipcMain.handle('data:deleteClient', async (event, matricule) => {
   try {
-
     const result = await deleteClient.deleteClient(matricule)
     return result
 
