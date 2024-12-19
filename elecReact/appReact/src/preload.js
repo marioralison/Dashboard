@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     addClient : (matricule ,name, workPlace, numberPhone) => ipcRenderer.invoke('data:addClient', matricule, name, workPlace, numberPhone),
     getClient : () => ipcRenderer.invoke('row:client'),
-    getClientByName: (name) => ipcRenderer.invoke('getClientByName', name),
+    getClientByMatricule: (matricule) => ipcRenderer.invoke('getClientByMatricule', matricule),
     deleteClient : (matricule) => ipcRenderer.invoke('data:deleteClient', matricule),
 
     getProduct : () => ipcRenderer.invoke('getProduct')

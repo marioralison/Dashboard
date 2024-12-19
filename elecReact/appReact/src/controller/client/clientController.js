@@ -82,21 +82,16 @@ const updateClient = (matricule, nameClient, lieuTravail, numberPhone) => {
     )})
 }
 
-const getClientByName = async (name) => {
-    const query = 'SELECT * FROM Clients WHERE LOWER(nameCLient) LIKE LOWER(?)'
+const getClientByMatricule = async (matricule) => {
+    const query = 'SELECT * FROM Clients WHERE matricule = ?'
     return new Promise((resolve, reject) => {
-        db.all(query, [`%${name}%`], (err, rows) => {
+        db.get(query, [matricule], (err, row) => {
             if (err) {
                 reject(err)
             }
-
-            if (rows.length === 0){
-                resolve([])
-            }
-
-            resolve(rows)
+            resolve(row)
         })
     })
 }
 
-module.exports = {addClient, getClient, deleteClient, updateClient, getClientByName}
+module.exports = {addClient, getClient, deleteClient, updateClient, getClientByMatricule}

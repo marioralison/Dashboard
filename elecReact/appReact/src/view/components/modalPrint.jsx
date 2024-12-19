@@ -3,8 +3,13 @@ import './styles/ModalPrint.css'
 
 const ModalPrint = ({closeModal}) => {
 
-    const [valueClient, setValueClient] = useState('simple')
-    const [clientMatch, setClientMatch] = useState([])
+    const [inputError, setInputError] = useState(null)
+    const [inputSuccess, setInputSuccess] = useState(null)
+
+    const [typeClient, setTypeClient] = useState('')
+    const [matriculeClient, setMatriculeClient] = useState('')
+
+    const [nombreImpression, setNombreImpression] = useState('')
     const [optionFormat, setOptionFormat] = useState([])
     const [impressionProduct, setImpressionProduct] = useState([])
     const [currentDate, setCurrentDate] = useState('')
@@ -20,20 +25,37 @@ const ModalPrint = ({closeModal}) => {
         {label: 'Membre', value: 'membre'}
     ]
 
-    //Récupérer le client
-    const checkClientByName = async () => {
-        try {
-            const clients = await window.electronAPI.getClientByName(valueClient.trim())
-            console.log(clients)
-        } catch (error) {
-            console.log("Erreur lors de la recherche du client", error.message)
+    function handleOptionClient(e){
+        setTypeClient(e.target.value)
+    }
+
+    const handleNombreImpression = (e) => {
+        const value = e.target.value
+        if (!isNaN(value) && Number(value) >= 0) {
+            setNombreImpression(value)
         }
     }
 
-    //Séléction du client correspondant
-    const handleClientSelection = (id) => {
-        setClienId(id)
-        setClientMatch([])
+    //Récupérer le client
+    const checkClientByMatricule = async () => {
+        try {
+            const client = await window.electronAPI.getClientByMatricule(matriculeClient)
+            if (client) {
+                console.log(client)
+                setMatriculeClient(client.matricule)
+                setInputError(false)
+                setInputSuccess(true)
+            }
+            else{
+                setInputError(true)
+                setInputSuccess(false)
+                console.log('Client introuvable dans la base de donnée !')
+            }
+        } catch (error) {
+            setInputError(true)
+            setInputSuccess(false)
+            console.log("Erreur lors de la recherche du client", error.message)
+        }
     }
 
     //Récupérer tous les produits
@@ -41,14 +63,18 @@ const ModalPrint = ({closeModal}) => {
         try {
 
             const data = await window.electronAPI.getProduct()
+
             const filtreImpressionProduct = data.filter((product) => product.categorie === 'Impression')
             setImpressionProduct(filtreImpressionProduct)
+
             const formats = [
                 ...new Set(filtreImpressionProduct.map((product) => product.tailleProduit)),
             ].map((format) => ({ label: format, value: format }));
+            
             setOptionFormat(formats);
 
         } catch (error) {
+            setInputError(false)
             console.log(error.message)
         }
     }
@@ -59,10 +85,6 @@ const ModalPrint = ({closeModal}) => {
         setCurrentDate(formattedDate)
         fetchProducts()
     }, [])
-
-    function handleOptionClient(e){
-        setValueClient(e.target.value)
-    }
 
     return(
         <div className='modalBackground' onClick={handleBackgroundClick}>
@@ -75,6 +97,7 @@ const ModalPrint = ({closeModal}) => {
                         <div className='inputModal'>
                             <h6 className='subtitleInput'>Type client</h6>
                             <select className='option' onChange={handleOptionClient}>
+                                <option value="">Selectionner le type de client</option>
                                 {
                                     optionClient.map(option => {
                                         return(
@@ -85,20 +108,25 @@ const ModalPrint = ({closeModal}) => {
                             </select>
                         </div>
                         <div className='inputModal'>
-                            <h6 className='subtitleInput'>Nom client</h6>
+                            <h6 className='subtitleInput'>Matricule client</h6>
                             <input 
-                                type="text"
-                                placeholder='Entrer le nom du client'
-                                value={valueClient}
-                                onChange={(e) => setValueClient(e.target.value)}
-                                onBlur={checkClientByName}
-                                disabled={valueClient === 'simple'}
+                                type="number"
+                                className={inputError ? 'errorInput' : inputSuccess ? 'successInput' : ''}
+                                placeholder='Entrer le matricule du client'
+                                value={matriculeClient}
+                                onChange={(e) => setMatriculeClient(e.target.value)}
+                                onBlur={checkClientByMatricule}
+                                disabled={typeClient === 'simple' || typeClient === ''}
                             />
                         </div>
                         <div className='inputSection'>
                             <div className='inputChild'>
                                 <h6 className='subtitleInput'>Nombre</h6>
-                                <input type="number" placeholder='Entrer le nombre'/>
+                                <input 
+                                    type="number" 
+                                    placeholder='Entrer le nombre'
+                                    onChange={handleNombreImpression}
+                                />
                             </div>
                             <div className='inputChild'>
                                 <h6 className='subtitleInput'>Format</h6>

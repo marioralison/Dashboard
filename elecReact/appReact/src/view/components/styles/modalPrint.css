@@ -176,3 +176,12 @@
 .clientOption:hover {
     background-color: #f0f0f0;
 }
+
+.errorInput{
+    border: 2px solid red;
+}
+
+.successInput{
+    border: 2px solid rgb(38, 189, 50);
+}
+    

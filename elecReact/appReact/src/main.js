@@ -56,7 +56,7 @@ const dataUser = require('./model/userModel.js')
 
 const addClient = require('./controller/client/clientController.js');
 const getClient = require('./controller/client/clientController.js');
-const getClientByName = require('./controller/client/clientController.js')
+const getClientByMatricule = require('./controller/client/clientController.js')
 const deleteClient = require('./controller/client/clientController.js')
 const updateClient = require('./controller/client/clientController.js')
 
@@ -68,9 +68,9 @@ const getProducts = require('./controller/products/productController.js')
 ipcMain.handle('data:addClient', addClient.addClient)
 ipcMain.handle('row:client', getClient.getClient)
 
-ipcMain.handle('getClientByName', async(event, name) => {
+ipcMain.handle('getClientByMatricule', async(event, matricule) => {
   try {
-    const result = await getClientByName.getClientByName(name)
+    const result = await getClientByMatricule.getClientByMatricule(matricule)
     return result
   } catch (error) {
     console.log('Erreur lors de la collection du nom client',error.message)
