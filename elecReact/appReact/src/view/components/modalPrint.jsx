@@ -6,13 +6,22 @@ const ModalPrint = ({closeModal}) => {
     const [inputError, setInputError] = useState(null)
     const [inputSuccess, setInputSuccess] = useState(null)
 
-    const [typeClient, setTypeClient] = useState('')
+    const [typeClient, setTypeClient] = useState('simple')
+    const [nomClient, setNomClient] = useState('')
     const [matriculeClient, setMatriculeClient] = useState('')
 
     const [nombreImpression, setNombreImpression] = useState('')
     const [optionFormat, setOptionFormat] = useState([])
     const [impressionProduct, setImpressionProduct] = useState([])
     const [currentDate, setCurrentDate] = useState('')
+
+    const [commande, setCommande] = useState({
+        typeClient : '',
+        nomClient : '',
+        nombre : '',
+        format : '',
+        date : ''
+    })
 
     const handleBackgroundClick = (e) => {
         if(e.target.className === 'modalBackground') {
@@ -21,19 +30,39 @@ const ModalPrint = ({closeModal}) => {
     }
 
     const optionClient = [
-        {label: 'Client simple', value: 'simple'},
+        {label: 'Client', value: 'client'},
         {label: 'Membre', value: 'membre'}
     ]
 
-    function handleOptionClient(e){
-        setTypeClient(e.target.value)
+    const handleOptionClient = (e) => {
+        const value = e.target.value
+        setTypeClient(value)
+        setCommande((prev) => {
+            const clientSimpleCommande = {...prev, typeClient: value}
+            if (value === 'client') {
+                clientSimpleCommande.nomClient = 'Client'
+            }
+            return clientSimpleCommande
+        }) 
     }
 
     const handleNombreImpression = (e) => {
         const value = e.target.value
         if (!isNaN(value) && Number(value) >= 0) {
             setNombreImpression(value)
+            setCommande((prev) => ({ ...prev, nombre: value }))
         }
+    }
+
+    const handleChangeFormat = (e) => {
+        const value = e.target.value
+        setCommande((prev) => ({ ...prev, format: value }))
+    }
+
+    const handleDateChange = (e) => {
+        const value = e.target.value
+        setCurrentDate(value)
+        setCommande((prev) => ({...prev, date: value}))
     }
 
     //Récupérer le client
@@ -41,10 +70,10 @@ const ModalPrint = ({closeModal}) => {
         try {
             const client = await window.electronAPI.getClientByMatricule(matriculeClient)
             if (client) {
-                console.log(client)
-                setMatriculeClient(client.matricule)
+                setNomClient(client.nameCLient)
                 setInputError(false)
                 setInputSuccess(true)
+                setCommande((prev) => ({...prev, nomClient: client.nameCLient}))
             }
             else{
                 setInputError(true)
@@ -61,16 +90,14 @@ const ModalPrint = ({closeModal}) => {
     //Récupérer tous les produits
     const fetchProducts = async () => { 
         try {
-
             const data = await window.electronAPI.getProduct()
-
             const filtreImpressionProduct = data.filter((product) => product.categorie === 'Impression')
             setImpressionProduct(filtreImpressionProduct)
 
             const formats = [
                 ...new Set(filtreImpressionProduct.map((product) => product.tailleProduit)),
             ].map((format) => ({ label: format, value: format }));
-            
+        
             setOptionFormat(formats);
 
         } catch (error) {
@@ -79,12 +106,34 @@ const ModalPrint = ({closeModal}) => {
         }
     }
 
+    //Envoyer les données dans la base de donnée
+    const sendCommand = async () => {
+        try {
+
+            if (commande.typeClient !== '' && commande.nomClient !== '' && commande.nombre !== '' && commande.format !== '' && commande.date !== '') {
+                console.log('Commande envoyé avec succès !', commande)
+            } 
+            else {
+                console.log('Veuillez remplir tous les champs !')
+            }
+
+        } catch (error) {
+            console.log("Erreur lors de l'envoie de la commande", error.message)
+        }
+    }
+
     useEffect(() => {
         const today = new Date()
         const formattedDate = today.toISOString().split('T')[0]
         setCurrentDate(formattedDate)
+        setCommande((prev) => ({...prev, date: formattedDate}))
         fetchProducts()
     }, [])
+
+    // useEffect(() => {
+    //     console.log(commande.date)
+    //     console.log(currentDate)
+    // }, [commande.date])
 
     return(
         <div className='modalBackground' onClick={handleBackgroundClick}>
@@ -97,7 +146,7 @@ const ModalPrint = ({closeModal}) => {
                         <div className='inputModal'>
                             <h6 className='subtitleInput'>Type client</h6>
                             <select className='option' onChange={handleOptionClient}>
-                                <option value="">Selectionner le type de client</option>
+                                <option>Selectionner le type du client</option>
                                 {
                                     optionClient.map(option => {
                                         return(
@@ -116,7 +165,7 @@ const ModalPrint = ({closeModal}) => {
                                 value={matriculeClient}
                                 onChange={(e) => setMatriculeClient(e.target.value)}
                                 onBlur={checkClientByMatricule}
-                                disabled={typeClient === 'simple' || typeClient === ''}
+                                disabled={typeClient === 'client' || typeClient === ''}
                             />
                         </div>
                         <div className='inputSection'>
@@ -130,7 +179,7 @@ const ModalPrint = ({closeModal}) => {
                             </div>
                             <div className='inputChild'>
                                 <h6 className='subtitleInput'>Format</h6>
-                                <select className="option">
+                                <select className="option" onChange={handleChangeFormat}>
                                     <option value="">Sélectionner un format</option>
                                     {optionFormat.map((option) => (
                                         <option key={option.value} value={option.value}>
@@ -145,11 +194,11 @@ const ModalPrint = ({closeModal}) => {
                             <input 
                                 type="date"
                                 value={currentDate}
-                                onChange={(e) => setCurrentDate(e.target.value)}/>
+                                onChange={handleDateChange}/>
                         </div>
                     </div>
                     <div className="footer">
-                        <button className='btnAddCommand'>Ajouter</button>
+                        <button className='btnAddCommand' onClick={sendCommand}>Ajouter</button>
                         <button className='btnCancel' onClick={() => closeModal(false)}>Annuler</button>
                     </div>
                 </div>
