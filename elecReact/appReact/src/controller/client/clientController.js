@@ -1,13 +1,14 @@
 const data = require('../../model/database.js')
 const db = data.getDataBase()
 
-//Insertion des données du client
+//Insertion des données du client membre
 const insertClient = (matricule, nomClient, lieuTravail, numeroPhone) => {
     return new Promise((resolve, reject) => {
+        const type = 2 //Type client membre dans la base de donnée
         db.run(`
-            INSERT INTO Clients (matricule, nameClient, lieuTravail, numberPhone)
-            VALUES (?, ?, ?, ?)`,
-            [matricule, nomClient, lieuTravail, numeroPhone],
+            INSERT INTO Clients (matricule, nameClient, lieuTravail, numberPhone, type_id)
+            VALUES (?, ?, ?, ?, ?)`,
+            [matricule, nomClient, lieuTravail, numeroPhone, type],
             function (err){
                 if (err){
                     return reject(err)

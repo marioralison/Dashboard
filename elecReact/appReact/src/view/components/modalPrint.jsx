@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './styles/ModalPrint.css'
 
-const ModalPrint = ({closeModal}) => {
+const ModalPrint = ({closeModal, refreshCommandeTable}) => {
 
     const [inputError, setInputError] = useState(null)
     const [inputSuccess, setInputSuccess] = useState(null)
 
-    const [typeClient, setTypeClient] = useState('simple')
+    const [typeClient, setTypeClient] = useState('1')
     const [nomClient, setNomClient] = useState('')
     const [matriculeClient, setMatriculeClient] = useState('')
 
@@ -14,6 +14,8 @@ const ModalPrint = ({closeModal}) => {
     const [optionFormat, setOptionFormat] = useState([])
     const [impressionProduct, setImpressionProduct] = useState([])
     const [currentDate, setCurrentDate] = useState('')
+
+    const [totalMontantCommande, setTotalMontantCommande] = useState(0)
 
     const [commande, setCommande] = useState({
         typeClient : '',
@@ -30,19 +32,27 @@ const ModalPrint = ({closeModal}) => {
     }
 
     const optionClient = [
-        {label: 'Client', value: 'client'},
-        {label: 'Membre', value: 'membre'}
+        {label: 'Client', value: 1},
+        {label: 'Membre', value: 2}
     ]
 
     const handleOptionClient = (e) => {
         const value = e.target.value
         setTypeClient(value)
-        setCommande((prev) => {
-            const clientSimpleCommande = {...prev, typeClient: value}
-            if (value === 'client') {
-                clientSimpleCommande.nomClient = 'Client'
+
+        setCommande( (prev) => {
+
+            const updatedCommand = {...prev, typeClient: value}
+
+            if (value === '1') {
+                updatedCommand.nomClient = 'Client'
+                setMatriculeClient('')
             }
-            return clientSimpleCommande
+            else if (value === '2') {
+                updatedCommand.nomClient = ''
+            }
+
+            return updatedCommand
         }) 
     }
 
@@ -79,6 +89,7 @@ const ModalPrint = ({closeModal}) => {
                 setInputError(true)
                 setInputSuccess(false)
                 console.log('Client introuvable dans la base de donnée !')
+                setCommande((prev) => ({ ...prev, nomClient: ''}))
             }
         } catch (error) {
             setInputError(true)
@@ -87,18 +98,19 @@ const ModalPrint = ({closeModal}) => {
         }
     }
 
-    //Récupérer tous les produits
+    //Récupérer le produit 'impression'
     const fetchProducts = async () => { 
         try {
-            const data = await window.electronAPI.getProduct()
-            const filtreImpressionProduct = data.filter((product) => product.categorie === 'Impression')
-            setImpressionProduct(filtreImpressionProduct)
 
-            const formats = [
-                ...new Set(filtreImpressionProduct.map((product) => product.tailleProduit)),
-            ].map((format) => ({ label: format, value: format }));
-        
-            setOptionFormat(formats);
+            const dataImpressionClientMembre = await window.electronAPI.getImpressionClientMembre()
+            const produitImpressionClientMembre = dataImpressionClientMembre.map((item) =>({
+                taille : item.taille,
+                prix : item.prix_unitaire
+            }))
+            setImpressionProduct(produitImpressionClientMembre)
+
+            const taillesImpression = produitImpressionClientMembre.map((item) => item.taille)
+            setOptionFormat(taillesImpression)
 
         } catch (error) {
             setInputError(false)
@@ -110,11 +122,48 @@ const ModalPrint = ({closeModal}) => {
     const sendCommand = async () => {
         try {
 
-            if (commande.typeClient !== '' && commande.nomClient !== '' && commande.nombre !== '' && commande.format !== '' && commande.date !== '') {
-                console.log('Commande envoyé avec succès !', commande)
-            } 
+            console.log('Type Client:', commande.typeClient);
+            console.log('Nom Client:', commande.nomClient);
+            console.log('Nombre:', commande.nombre);
+            console.log('Format:', commande.format);
+            console.log('Date:', commande.date);
+            console.log('Montant Total:', totalMontantCommande);
+
+            if (commande.typeClient !== '' && commande.nomClient !== '' && commande.nombre !== '' && commande.format !== '' && commande.date !== '' && totalMontantCommande > 0) {
+                
+                const newCommand = {
+                    type_client: commande.typeClient === '1' ? 'Client' : 'Membre',
+                    nom_client: commande.nomClient,
+                    nombre: commande.nombre,
+                    format: commande.format, 
+                    date: commande.date,
+                    montant_total: totalMontantCommande
+                }
+
+                await window.electronAPI.addCommandeImpression(newCommand)
+                console.log('Commande ajoutée avec succès !', newCommand)
+
+                //Réinitialisation des champs après l'enregistrement
+                setCommande({
+                    typeClient: '',
+                    nomClient: '',
+                    nombre: '',
+                    format: '',
+                    date: currentDate
+                })
+                setNombreImpression('')
+                setTotalMontantCommande(0)
+
+                if (newCommand) {
+                    setTimeout(() => {
+                        refreshCommandeTable()
+                        closeModal()
+                    }, 1000)
+                }
+
+            }
             else {
-                console.log('Veuillez remplir tous les champs !')
+                console.log('Veuillez remplir tous les champs correctement !')
             }
 
         } catch (error) {
@@ -130,10 +179,45 @@ const ModalPrint = ({closeModal}) => {
         fetchProducts()
     }, [])
 
-    // useEffect(() => {
-    //     console.log(commande.date)
-    //     console.log(currentDate)
-    // }, [commande.date])
+    //Calcul de la montant total de la commande
+    useEffect(() => {
+        if (nombreImpression && commande.format){
+            const selectedProduct = impressionProduct.find(
+                (product) => product.taille === commande.format
+            )
+
+            if (selectedProduct) {
+                const total = Number(nombreImpression) * selectedProduct.prix
+                setTotalMontantCommande(total)
+            }
+            else {
+                setTotalMontantCommande(0)
+            }
+        }
+        else {
+            setTotalMontantCommande(0)
+        }
+    }, [nombreImpression, commande.format, impressionProduct])
+
+    useEffect(() => {
+        if (typeClient === '1' && nomClient !== 'Client') {
+            setNomClient('Client');
+            setCommande((prev) => ({ ...prev, nomClient: 'Client' }));
+        } else if (typeClient === '2') {
+            if (!nomClient) {
+                setNomClient('');
+                setCommande((prev) => ({ ...prev, nomClient: '' }));
+            }
+        }
+    }, [typeClient, nomClient]);
+
+    useEffect(() => {
+        setCommande((prev) => ({
+            ...prev,
+            typeClient,
+            nomClient: typeClient === '1' ? 'Client' : '',
+        }));
+    }, [typeClient]);
 
     return(
         <div className='modalBackground' onClick={handleBackgroundClick}>
@@ -145,8 +229,7 @@ const ModalPrint = ({closeModal}) => {
                     <div className="body">
                         <div className='inputModal'>
                             <h6 className='subtitleInput'>Type client</h6>
-                            <select className='option' onChange={handleOptionClient}>
-                                <option>Selectionner le type du client</option>
+                            <select className='option' value={typeClient} onChange={handleOptionClient}>
                                 {
                                     optionClient.map(option => {
                                         return(
@@ -165,7 +248,7 @@ const ModalPrint = ({closeModal}) => {
                                 value={matriculeClient}
                                 onChange={(e) => setMatriculeClient(e.target.value)}
                                 onBlur={checkClientByMatricule}
-                                disabled={typeClient === 'client' || typeClient === ''}
+                                disabled={typeClient === '1' || typeClient === ''}
                             />
                         </div>
                         <div className='inputSection'>
@@ -181,9 +264,9 @@ const ModalPrint = ({closeModal}) => {
                                 <h6 className='subtitleInput'>Format</h6>
                                 <select className="option" onChange={handleChangeFormat}>
                                     <option value="">Sélectionner un format</option>
-                                    {optionFormat.map((option) => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
+                                    {optionFormat.map((taille, index) => (
+                                        <option key={index} value={taille}>
+                                            {taille}
                                         </option>
                                     ))}
                                 </select>
@@ -196,11 +279,23 @@ const ModalPrint = ({closeModal}) => {
                                 value={currentDate}
                                 onChange={handleDateChange}/>
                         </div>
+                        <div className="inputModal">
+                            <h6 className="subtitleInput">Montant total</h6>
+                            <input 
+                                type="text" 
+                                value={`${totalMontantCommande} Ar`} 
+                                readOnly
+                                className="readonlyInput" 
+                            />
+                        </div>
                     </div>
                     <div className="footer">
                         <button className='btnAddCommand' onClick={sendCommand}>Ajouter</button>
                         <button className='btnCancel' onClick={() => closeModal(false)}>Annuler</button>
                     </div>
+                    {inputError && typeClient === '2' && (
+                        <p className="errorText">Client introuvable. Veuillez vérifier le matricule.</p>
+                    )}
                 </div>
             </div>
         </div>

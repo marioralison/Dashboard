@@ -12,5 +12,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getClientByMatricule: (matricule) => ipcRenderer.invoke('getClientByMatricule', matricule),
     deleteClient : (matricule) => ipcRenderer.invoke('data:deleteClient', matricule),
 
-    getProduct : () => ipcRenderer.invoke('getProduct')
+    getImpressionClientMembre : () => ipcRenderer.invoke('getImpressionClientMembre'),
+    addCommandeImpression : (commande) => ipcRenderer.invoke('addCommandeImpression', commande),
+    getCommandesImpression : () => ipcRenderer.invoke('getCommandImpression'),
+    deleteCommande : (id_commande) => ipcRenderer.invoke('deleteCommande', id_commande)
 })

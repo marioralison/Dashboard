@@ -60,7 +60,10 @@ const getClientByMatricule = require('./controller/client/clientController.js')
 const deleteClient = require('./controller/client/clientController.js')
 const updateClient = require('./controller/client/clientController.js')
 
-const getProducts = require('./controller/products/productController.js')
+const getImpressionClientMembre = require('./controller/products/productController.js')
+const addCommandImpression = require('./controller/commandes/commandeController.js')
+const getCommands = require('./controller/commandes/commandeController.js')
+const deleteCommande = require('./controller/commandes/commandeController.js')
 
 
 //--------------------------GESTION CLIENT-----------------------
@@ -113,11 +116,41 @@ ipcMain.handle('userNameData', dataUser.user)
 
 
 //-------------------------GESTION PRODUITS-----------------------------
-ipcMain.handle('getProduct', async () => {
+
+ipcMain.handle('getImpressionClientMembre', async () => {
   try {
-    const result = await getProducts.getProduct()
+    const result = await getImpressionClientMembre.getImpressionClientMembre()
     return result
   } catch (error) {
     console.log('Erreur au niveau de collection de produits' ,error.message)
+  }
+})
+
+ipcMain.handle('addCommandeImpression', async (event, commande) => {
+  try {
+
+    const result = await addCommandImpression.addCommand(commande)
+    return result
+
+  } catch (error) {
+    console.log("Erreur au niveau de la fonction d'enregistrement de commande", error.message)
+  }
+})
+
+ipcMain.handle('getCommandImpression', async () => {
+  try {
+    const result = await getCommands.getCommands()
+    return result
+  } catch (error) {
+    console.log('Erreur de la fonction de récupération de produits impression', error.message)
+  }
+})
+
+ipcMain.handle('deleteCommande', async (event ,id_commande) => {
+  try {
+    const result = await deleteCommande.deleteCommande(id_commande)
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction suppression de commande', error.message)
   }
 })

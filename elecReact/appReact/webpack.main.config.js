@@ -20,6 +20,7 @@ module.exports = {
     publicPath : "./"
   },
   externals: {
-    sqlite3: "commonjs sqlite3"
+    sqlite3: "commonjs sqlite3",
+    argon2: "commonjs argon2"
   },
 };

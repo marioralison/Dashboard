@@ -52,7 +52,7 @@ const ModalClient = ({toggleModal, clientToEdit, onSave, refreshClientTable}) =>
             <div className="modalClientContainer">
                 <div className="modalBodyClient">
                     <div className="header">
-                        <h3>{clientToEdit ? 'Modification information client' : 'Ajouter nouveau client'}</h3>
+                        <h3>{clientToEdit ? 'Modification information client membre' : 'Ajouter nouveau client membre'}</h3>
                     </div>
                     <div className="body">
                         <div className='infoClient'>

@@ -44,25 +44,6 @@ const Main = () => {
         },
     ]
 
-    // const dataA5 = async () => {
-    //     return await window.electronAPI.getA5()
-    // } 
-
-    // const dataA4 = async () => {
-    //     return await window.electronAPI.getA4()
-    // }
-    
-    // dataA5().then((prix) => {
-    //     setNombreTotalA5(prix.nombreTotalA5)
-    //     setPrixTotalA5(prix.totalPrixVenteA5)
-    // })
-
-    // dataA4().then((prix) => {
-    //     console.log(prix)
-    //     setNombreTotalA4(prix.nombreTotalA4)
-    //     setPrixTotalA4(prix.totalPrixVenteA4)
-    // })
-
     return(
         <div className="containerTableau">
 
@@ -89,9 +70,9 @@ const Main = () => {
 
             <div className="products">
                 {
-                    products.map((product) => {
+                    products.map((product, index) => {
                         return(
-                            <div className="typeProduct">
+                            <div className="typeProduct" key={product.id || index}>
                                 <CardProduct title={product.nom} icon={product.icon} totalProduct ={product.nombre} totalPrice={product.prix}>
                                 </CardProduct>
                             </div>
