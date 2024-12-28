@@ -102,14 +102,14 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
     const fetchProducts = async () => { 
         try {
 
-            const dataImpressionClientMembre = await window.electronAPI.getImpressionClientMembre()
-            const produitImpressionClientMembre = dataImpressionClientMembre.map((item) =>({
+            const dataImpressionData = await window.electronAPI.getImpressionData(typeClient)
+            const produitImpressionData = dataImpressionData.map((item) =>({
                 taille : item.taille,
                 prix : item.prix_unitaire
             }))
-            setImpressionProduct(produitImpressionClientMembre)
+            setImpressionProduct(produitImpressionData)
 
-            const taillesImpression = produitImpressionClientMembre.map((item) => item.taille)
+            const taillesImpression = produitImpressionData.map((item) => item.taille)
             setOptionFormat(taillesImpression)
 
         } catch (error) {
@@ -121,13 +121,6 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
     //Envoyer les données dans la base de donnée
     const sendCommand = async () => {
         try {
-
-            console.log('Type Client:', commande.typeClient);
-            console.log('Nom Client:', commande.nomClient);
-            console.log('Nombre:', commande.nombre);
-            console.log('Format:', commande.format);
-            console.log('Date:', commande.date);
-            console.log('Montant Total:', totalMontantCommande);
 
             if (commande.typeClient !== '' && commande.nomClient !== '' && commande.nombre !== '' && commande.format !== '' && commande.date !== '' && totalMontantCommande > 0) {
                 
@@ -141,7 +134,16 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
                 }
 
                 await window.electronAPI.addCommandeImpression(newCommand)
-                console.log('Commande ajoutée avec succès !', newCommand)
+
+                //Mise à jour des stats du client
+                if (newCommand.type_client === 'Membre' && commande.format === 'A6') {
+                    await window.electronAPI.updateClientStat(
+                        matriculeClient,
+                        Number(commande.nombre), //Total impression faite par le client
+                        totalMontantCommande  //Total depense
+                    )
+                    console.log('Statistique du client mise à jour')
+                }
 
                 //Réinitialisation des champs après l'enregistrement
                 setCommande({
@@ -171,6 +173,7 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
         }
     }
 
+    //Récupération de la date et formatage après
     useEffect(() => {
         const today = new Date()
         const formattedDate = today.toISOString().split('T')[0]
@@ -199,6 +202,7 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
         }
     }, [nombreImpression, commande.format, impressionProduct])
 
+    //Définition du nom client dans la base de donnée en fonction du choix de l'user
     useEffect(() => {
         if (typeClient === '1' && nomClient !== 'Client') {
             setNomClient('Client');
@@ -217,6 +221,11 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
             typeClient,
             nomClient: typeClient === '1' ? 'Client' : '',
         }));
+    }, [typeClient]);
+
+    //Appel de la récupération de donnée de produit à chaque fois que le type de client change
+    useEffect(() => {
+        fetchProducts();
     }, [typeClient]);
 
     return(

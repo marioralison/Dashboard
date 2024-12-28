@@ -59,11 +59,13 @@ const getClient = require('./controller/client/clientController.js');
 const getClientByMatricule = require('./controller/client/clientController.js')
 const deleteClient = require('./controller/client/clientController.js')
 const updateClient = require('./controller/client/clientController.js')
+const updateClientStat = require('./controller/client/clientController.js')
 
-const getImpressionClientMembre = require('./controller/products/productController.js')
 const addCommandImpression = require('./controller/commandes/commandeController.js')
 const getCommands = require('./controller/commandes/commandeController.js')
 const deleteCommande = require('./controller/commandes/commandeController.js')
+
+const getImpressionData = require('./controller/products/productController.js')
 
 
 //--------------------------GESTION CLIENT-----------------------
@@ -101,6 +103,14 @@ ipcMain.handle('data:updateClient', async (event, matricule, nameClient, lieuTra
   }
 })
 
+ipcMain.handle('updateClientStat', async (event, matriculeClient, additionalImpression, totalDepense) => {
+  try {
+    const result = await updateClientStat.updateClientStat(matriculeClient, additionalImpression, totalDepense)
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction mise à jour des stats client', error.message)
+  }
+})
 
 
 //-------------------------GESTION UTILISATEUR------------------------
@@ -117,12 +127,12 @@ ipcMain.handle('userNameData', dataUser.user)
 
 //-------------------------GESTION PRODUITS-----------------------------
 
-ipcMain.handle('getImpressionClientMembre', async () => {
+ipcMain.handle('getImpressionData', async (event, typeClientId) => {
   try {
-    const result = await getImpressionClientMembre.getImpressionClientMembre()
+    const result = await getImpressionData.getImpressionData(typeClientId)
     return result
   } catch (error) {
-    console.log('Erreur au niveau de collection de produits' ,error.message)
+    console.log('Erreur au niveau de collection de produit type membre' ,error.message)
   }
 })
 

@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer, ipcMain } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
     addUser : (name, password, role) => ipcRenderer.invoke('data:addUser', name, password, role),
@@ -11,8 +11,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getClient : () => ipcRenderer.invoke('row:client'),
     getClientByMatricule: (matricule) => ipcRenderer.invoke('getClientByMatricule', matricule),
     deleteClient : (matricule) => ipcRenderer.invoke('data:deleteClient', matricule),
+    updateClientStat : (matriculeClient, additionalImpression, totalDepense) => ipcRenderer.invoke('updateClientStat', matriculeClient, additionalImpression, totalDepense),
 
-    getImpressionClientMembre : () => ipcRenderer.invoke('getImpressionClientMembre'),
+    getImpressionData : (typeClientId) => ipcRenderer.invoke('getImpressionData', typeClientId),
     addCommandeImpression : (commande) => ipcRenderer.invoke('addCommandeImpression', commande),
     getCommandesImpression : () => ipcRenderer.invoke('getCommandImpression'),
     deleteCommande : (id_commande) => ipcRenderer.invoke('deleteCommande', id_commande)

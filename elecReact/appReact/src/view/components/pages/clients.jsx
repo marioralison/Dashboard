@@ -61,7 +61,7 @@ const Client = () => {
             }
 
         } catch (error) {
-            console.log('Il y a une erreur au niveau de la suppression !', error.message)
+            console.log('Il y a une erreur au niveau de la suppression de client !', error.message)
         }
     }
 

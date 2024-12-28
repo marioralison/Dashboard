@@ -95,4 +95,26 @@ const getClientByMatricule = async (matricule) => {
     })
 }
 
-module.exports = {addClient, getClient, deleteClient, updateClient, getClientByMatricule}
+const updateClientStat = async (matriculeClient, additionalImpression, totalDepense) => {
+    const query = `
+        UPDATE Clients
+        SET 
+            totalImpression = COALESCE(totalImpression, 0) + ?,
+            totalDepense = COALESCE(totalDepense, 0) + ?
+        WHERE matricule = ?
+            AND type_id = (SELECT id FROM Type_clients WHERE type = 'Membre');
+    `
+
+    return new Promise((resolve, reject) => {
+        db.run(query, [additionalImpression, totalDepense, matriculeClient], (err) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve({ changes: this.changes })
+            }
+        })
+    })
+} 
+
+module.exports = {addClient, getClient, deleteClient, updateClient, getClientByMatricule, updateClientStat}
