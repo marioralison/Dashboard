@@ -99,3 +99,8 @@ table tr {
 ::-webkit-scrollbar-thumb:hover{
     background: #437388;
 }
+
+.iconAction button {
+    background: none;
+    border: none;
+}

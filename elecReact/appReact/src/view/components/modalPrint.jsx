@@ -103,9 +103,9 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
         try {
 
             const dataImpressionData = await window.electronAPI.getImpressionData(typeClient)
-            const produitImpressionData = dataImpressionData.map((item) =>({
-                taille : item.taille,
-                prix : item.prix_unitaire
+            const produitImpressionData = dataImpressionData.map((produit) =>({
+                taille : produit.taille,
+                prix : produit.prix_unitaire
             }))
             setImpressionProduct(produitImpressionData)
 

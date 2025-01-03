@@ -72,7 +72,8 @@ const Dashboard = () => {
 
             <div className="bodyDashboard">
                 {/* Affichage dynamique du composant */}
-                {renderComponent()}
+                {/* {renderComponent()} */}
+                <Vente></Vente>
             </div>
         </div>
     )

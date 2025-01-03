@@ -65,7 +65,13 @@ const addCommandImpression = require('./controller/commandes/commandeController.
 const getCommands = require('./controller/commandes/commandeController.js')
 const deleteCommande = require('./controller/commandes/commandeController.js')
 
+const getProduct = require('./controller/products/productController.js')
 const getImpressionData = require('./controller/products/productController.js')
+const getProductById = require('./controller/products/productController.js')
+
+const addVente = require('./controller/vente/venteController.js')
+const getVentes = require('./controller/vente/venteController.js')
+const deleteVenteRow = require('./controller/vente/venteController.js')
 
 
 //--------------------------GESTION CLIENT-----------------------
@@ -127,6 +133,15 @@ ipcMain.handle('userNameData', dataUser.user)
 
 //-------------------------GESTION PRODUITS-----------------------------
 
+ipcMain.handle('getProduct', async () => {
+  try {
+    const results = await getProduct.getProduct()
+    return results
+  } catch (error) {
+    console.log('Erreur lors de la récupération des produits', error.message)
+  }
+})
+
 ipcMain.handle('getImpressionData', async (event, typeClientId) => {
   try {
     const result = await getImpressionData.getImpressionData(typeClientId)
@@ -162,5 +177,42 @@ ipcMain.handle('deleteCommande', async (event ,id_commande) => {
     return result
   } catch (error) {
     console.log('Erreur au niveau de la fonction suppression de commande', error.message)
+  }
+})
+
+ipcMain.handle('getProductById', async (event, productId) => {
+  try {
+    const result = await getProductById.getProductById(productId)
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de récupération de produit', error.message)
+  }
+})
+
+//------------------------ GESTION VENTES -------------------------
+ipcMain.handle('addVente', async (event, commande) => {
+  try {
+    const result = await addVente.addVente(commande)
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction ajout vente', error.message)
+  }
+})
+
+ipcMain.handle('getVentes', async () => {
+  try {
+    const result = await getVentes.getVentes()
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de récupération des ventes', error.message)
+  }
+})
+
+ipcMain.handle('deleteVenteRow', async (event, id) => {
+  try {
+    const result = await deleteVenteRow.deleteVenteRow(id)
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de supression vente', error.message)
   }
 })

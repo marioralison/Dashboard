@@ -7,7 +7,7 @@ import iconAdd from '../../icons/Add.png';
 
 import HeaderMain from "../headerMain.jsx";
 import AddButton from "../addButton.jsx";
-import Short from "../shortType.jsx";
+import Short from "../shortTypeClient.jsx";
 import ModalClient from "../modalClient.jsx"
 
 const Client = () => {

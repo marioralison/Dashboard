@@ -20,4 +20,47 @@ const getImpressionData = async (typeClientId) => {
     })
 }
 
-module.exports = {getImpressionData}
+
+
+const getProductById = async (productId) => {
+    const query = `
+        SELECT
+            p.nom AS produit,
+            t.taille AS taille,
+            pr.prix_unitaire AS prix_unitaire
+        FROM 
+            Prix pr
+        JOIN 
+            Produits p ON pr.produit_id = p.id
+        JOIN 
+            Tailles t ON pr.taille_id = t.id
+        WHERE 
+            p.id = ?
+    `
+    return new Promise((resolve, reject) => {
+        db.all(query, [productId], (err, rows) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
+//Récupérer tous les produits sauf le produit "impression"
+const getProduct = async () => {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM Produits WHERE nom != 'Impression'`, (err, rows) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
+module.exports = {getProduct, getImpressionData, getProductById}

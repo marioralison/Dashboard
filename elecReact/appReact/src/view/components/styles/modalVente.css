@@ -151,3 +151,11 @@
     padding-left: 15px;
     border-radius: 10px;
 }
+
+.errorInput{
+    border: 2px solid red;
+}
+
+.successInput{
+    border: 2px solid rgb(38, 189, 50);
+}

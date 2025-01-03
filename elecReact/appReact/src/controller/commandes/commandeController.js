@@ -1,4 +1,3 @@
-const { resolve } = require('path')
 const data = require('../../model/database.js')
 const db = data.getDataBase()
 
@@ -46,7 +45,7 @@ const getCommands = async () => {
 
 const deleteCommande = async (id) => {
     return new Promise((resolve, reject) => {
-        db.run('DELETE FROM Commandes WHERE id = ?', [id], function(err) {
+        db.run('DELETE FROM Commandes WHERE id = ?', [id], function (err) {
             if (err) {
                 reject({ success: false, message: err.message })
             } else {
