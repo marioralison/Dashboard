@@ -367,7 +367,7 @@ const ModalPrint = ({closeModal, refreshVenteTableau}) => {
                         </div>
                         <div className='inputModal'>
                             <h6 className='subtitleInput'>Total</h6>
-                            <input type="text" value={`${prixTotal}`} readOnly />
+                            <input type="text" value={`${prixTotal} Ar`} readOnly />
                         </div>
                     </div>
                     <div className="footer">

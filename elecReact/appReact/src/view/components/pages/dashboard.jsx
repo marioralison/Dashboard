@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../styles/dashboard.css';
 
 import iconNotification from '../../icons/Notification.png';
@@ -17,32 +17,34 @@ import HeaderMain from "../headerMain.jsx";
 
 const Main = () => {
 
-    const [nombreTotalA5, setNombreTotalA5] = useState(null) 
-    const [prixTotalA5, setPrixTotalA5] = useState(null)
-    const [nombreTotalA4, setNombreTotalA4] = useState(null)
-    const [prixTotalA4, setPrixTotalA4] = useState(null)
+    const [impressionData, setImpressionData] = useState([])
+    const [totalClientMembre, setTotalClientMembre] = useState(null)
 
-    //Contenu produit
-    const products = [
-        {
-            nom: "A5 imprimé",
-            nombre: "250",
-            prix: "2500 Ar",
-            icon: './src/view/icons/Gallery.png'
-        },
-        {
-            nom: "A5 imprimé",
-            nombre: "250",
-            prix: "2500 Ar",
-            icon: './src/view/icons/Gallery.png'
-        },
-        {
-            nom: "A5 imprimé",
-            nombre: "250",
-            prix: "2500 Ar",
-            icon: './src/view/icons/Gallery.png'
-        },
-    ]
+    //Récuperer le nombre total de client membre inscrit
+    const getNombreClientMembre = async () => {
+        try {
+            const nombreClientMembre = await window.electronAPI.getTotalClientMembre()
+            setTotalClientMembre(nombreClientMembre)
+        } catch (error) {
+            console.log('Erreur lors de la récupération de donnée client membre', error.message)
+        }
+    }
+
+    //Récupérer le donnée des commandes 'impression'
+    const getTotalCommandeImpression = async () => {
+        try {
+            const dataImpression = await window.electronAPI.getTotalCommandeImpression()
+            setImpressionData(dataImpression)
+            console.log(dataImpression)
+        } catch (error) {
+            console.log('Erreur lors de la récupération des données commande', error.message)
+        }
+    }
+
+    useEffect(() => {
+        getNombreClientMembre()
+        getTotalCommandeImpression()
+    }, [])
 
     return(
         <div className="containerTableau">
@@ -69,24 +71,25 @@ const Main = () => {
             </div>
 
             <div className="products">
+                <div className="typeProduct">
+                    <CardProduct title="Chiffre d’affaire" icon={iconCash} totalProduct = "125">
+                    </CardProduct>
+                </div>
+                <div className="typeProduct">
+                    <CardProduct title='Membre inscrit' icon={iconClient} totalProduct = {totalClientMembre}>
+                    </CardProduct>
+                </div>
                 {
-                    products.map((product, index) => {
+                    impressionData.map((data, index) => {
                         return(
-                            <div className="typeProduct" key={product.id || index}>
-                                <CardProduct title={product.nom} icon={product.icon} totalProduct ={product.nombre} totalPrice={product.prix}>
+                            <div className="typeProduct" key={index}>
+                                <CardProduct title={`${data.produit_nom} ${data.format}`} icon={iconGallery} totalProduct ={data.nombre} totalPrice={`${data.total_montant.toLocaleString()} Ar`}>
                                 </CardProduct>
                             </div>
                         )
                     })
                 }
-                <div className="typeProduct">
-                    <CardProduct title='Client enregistré' icon={iconClient} totalProduct = "125">
-                    </CardProduct>
-                </div>
-                <div className="typeProduct">
-                    <CardProduct title="Chiffre d’affaire" icon={iconCash} totalProduct = "125">
-                    </CardProduct>
-                </div>
+                
             </div>
 
             <div className="rapport">

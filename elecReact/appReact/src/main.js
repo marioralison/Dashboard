@@ -60,10 +60,12 @@ const getClientByMatricule = require('./controller/client/clientController.js')
 const deleteClient = require('./controller/client/clientController.js')
 const updateClient = require('./controller/client/clientController.js')
 const updateClientStat = require('./controller/client/clientController.js')
+const getTotalClientMembre = require('./controller/client/clientController.js')
 
 const addCommandImpression = require('./controller/commandes/commandeController.js')
 const getCommands = require('./controller/commandes/commandeController.js')
 const deleteCommande = require('./controller/commandes/commandeController.js')
+const getTotalCommandeImpression = require('./controller/commandes/commandeController.js')
 
 const getProduct = require('./controller/products/productController.js')
 const getImpressionData = require('./controller/products/productController.js')
@@ -71,7 +73,8 @@ const getProductById = require('./controller/products/productController.js')
 
 const addVente = require('./controller/vente/venteController.js')
 const getVentes = require('./controller/vente/venteController.js')
-const deleteVenteRow = require('./controller/vente/venteController.js')
+const deleteVenteRow = require('./controller/vente/venteController.js');
+const { constSelector } = require('recoil');
 
 
 //--------------------------GESTION CLIENT-----------------------
@@ -118,6 +121,15 @@ ipcMain.handle('updateClientStat', async (event, matriculeClient, additionalImpr
   }
 })
 
+ipcMain.handle('getTotalClientMembre', async () => {
+  try {
+    const result = await getTotalClientMembre.getTotalClientMembre()
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de récupération de nombre membre', error.message)
+  }
+})
+
 
 //-------------------------GESTION UTILISATEUR------------------------
 
@@ -131,7 +143,7 @@ ipcMain.handle('userNameData', dataUser.user)
 
 
 
-//-------------------------GESTION PRODUITS-----------------------------
+//-------------------------GESTION COMMANDES-----------------------------
 
 ipcMain.handle('getProduct', async () => {
   try {
@@ -188,6 +200,16 @@ ipcMain.handle('getProductById', async (event, productId) => {
     console.log('Erreur au niveau de la fonction de récupération de produit', error.message)
   }
 })
+
+ipcMain.handle('getTotalCommandeImpression', async () => {
+  try {
+    const results = await getTotalCommandeImpression.getTotalCommandeImpression()
+    return results
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de récupération des données commande', error.message)
+  }
+})
+
 
 //------------------------ GESTION VENTES -------------------------
 ipcMain.handle('addVente', async (event, commande) => {

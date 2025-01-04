@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import './styles/shortType.css';
 
-const Short = ({option1, option2, onSelect}) => {
+const Short = ({option1, option2, handleSelect}) => {
+
+    const handleChange = (event) => {
+        handleSelect(event.target.value)
+    }
 
     return(
         <section className="containerShort">
@@ -12,7 +16,7 @@ const Short = ({option1, option2, onSelect}) => {
                     value="Client" 
                     name="select" 
                     defaultChecked
-                    onSelect={(e) => e.target.value}
+                    onChange={handleChange}
                 />
                 <label className="selection" htmlFor="client">{option1}</label>
             </div>
@@ -22,7 +26,7 @@ const Short = ({option1, option2, onSelect}) => {
                     id="membre" 
                     value="Membre" 
                     name="select"
-                    onSelect={(e) => e.target.value}
+                    onChange={handleChange}
                 />
                 <label className="selection" htmlFor="membre">{option2}</label>
             </div>

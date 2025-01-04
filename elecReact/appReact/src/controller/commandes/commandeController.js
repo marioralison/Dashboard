@@ -3,15 +3,17 @@ const db = data.getDataBase()
 
 const addCommand = (commande) => {
     return new Promise((resolve, reject) => {
+        const id_produit = 1
         const query = `
-            INSERT INTO Commandes (type_client, nom_client, nombre, format, date, montant_total)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO Commandes (type_client, nom_client, produit_id, nombre, format, date, montant_total)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         `
 
         db.run(query, 
             [
                 commande.type_client,
                 commande.nom_client,
+                id_produit,
                 commande.nombre,
                 commande.format,
                 commande.date,
@@ -59,4 +61,32 @@ const deleteCommande = async (id) => {
     })
 }
 
-module.exports = {addCommand, getCommands, deleteCommande}
+const getTotalCommandeImpression = async () => {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT 
+                p.nom AS produit_nom,
+                Commandes.format,
+                COUNT(Commandes.format) AS nombre,
+                SUM(Commandes.montant_total) AS total_montant
+            FROM 
+                Commandes
+            JOIN 
+                Produits p ON Commandes.produit_id = p.id
+            GROUP BY 
+                Commandes.format
+            ORDER BY 
+                Commandes.format DESC;
+        `
+        db.all(query, (err, rows) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
+module.exports = {addCommand, getCommands, deleteCommande, getTotalCommandeImpression}

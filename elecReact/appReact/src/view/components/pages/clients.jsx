@@ -90,7 +90,7 @@ const Client = () => {
                                 <th>Matricule</th>
                                 <th>Client</th>
                                 <th>Lieu travail</th>
-                                <th>Total impression</th>
+                                <th>Total impression A6</th>
                                 <th>Total Dépense</th>
                                 <th>Téléphone</th>
                                 <th>Action</th>
@@ -103,7 +103,7 @@ const Client = () => {
                                     <td>{client.nameCLient}</td>
                                     <td>{client.lieuTravail}</td>
                                     <td>{client.totalImpression || 0}</td>
-                                    <td>{client.totalDepense || 0}</td>
+                                    <td>{client.totalDepense || 0} Ar</td>
                                     <td>{client.numberPhone}</td>
                                     <td className="Action">
 

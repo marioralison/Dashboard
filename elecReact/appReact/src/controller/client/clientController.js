@@ -117,4 +117,31 @@ const updateClientStat = async (matriculeClient, additionalImpression, totalDepe
     })
 } 
 
-module.exports = {addClient, getClient, deleteClient, updateClient, getClientByMatricule, updateClientStat}
+const getTotalClientMembre = async () => {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT COUNT(*) AS total_membre
+            FROM Clients 
+            WHERE type_id = 2
+        `
+
+        db.get(query, (err, result) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(result.total_membre)
+            }
+        })
+    })
+}
+
+module.exports = {
+                    addClient,
+                    getClient, 
+                    deleteClient, 
+                    updateClient, 
+                    getClientByMatricule, 
+                    updateClientStat,
+                    getTotalClientMembre
+                }

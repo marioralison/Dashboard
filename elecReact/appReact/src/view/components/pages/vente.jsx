@@ -87,7 +87,7 @@ const Vente = () => {
                                     <td>{vente.nom_client}</td>
                                     <td>{vente.categorie} {vente.format}</td>
                                     <td>{vente.nombre}</td>
-                                    <td>{vente.montant_total}</td>
+                                    <td>{vente.montant_total} Ar</td>
                                     <td>{vente.date}</td>
                                     <td className="iconAction">
                                         <button

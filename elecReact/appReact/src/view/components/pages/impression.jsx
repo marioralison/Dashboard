@@ -7,7 +7,7 @@ import iconAdd from '../../icons/Add.png'
 
 import HeaderMain from "../headerMain.jsx";
 import AddButton from "../addButton.jsx";
-import Short from "../shortTypeClient.jsx";
+import Short from "../shortTypeImpression.jsx";
 import ModalPrint from '../modalPrint.jsx';
 
 const Print = () => {
@@ -58,7 +58,9 @@ const Print = () => {
             setFiltredCommands(commands)
         }
         else {
-            const filtered = commands.filter(command => command.type_client === selectedClientType)
+            const filtered = commands.filter(
+                command => command.type_client.toLowerCase() === selectedClientType.toLowerCase()
+            );
             setFiltredCommands(filtered)
         }
     }, [selectedClientType, commands])
@@ -79,7 +81,7 @@ const Print = () => {
                     <Short 
                         option1='Client' 
                         option2='Membre'
-                        onSelect={handleClientTypeChange}
+                        handleSelect={handleClientTypeChange}
                     />
                 </div>
             </div>
