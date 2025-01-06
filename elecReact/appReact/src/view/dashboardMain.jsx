@@ -63,7 +63,6 @@ const Dashboard = () => {
                             <li onClick={navigateToPrint}><NavButton title='Impression' icon={iconListPrint}></NavButton></li>
                             <li onClick={navigateToVente}><NavButton title='Ventes' icon={iconSell}></NavButton></li>
                             <li onClick={navigateToClient}><NavButton title='Clients' icon={iconClient}></NavButton></li>
-                            <li><NavButton title='Suivie opération' icon={iconChart}></NavButton></li>
                             <li className="logout" onClick={logOut}><NavButton title='Sortir' icon={iconLogout}></NavButton></li>
                         </ul>
                     </div>

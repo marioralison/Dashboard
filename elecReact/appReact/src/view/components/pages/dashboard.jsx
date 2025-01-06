@@ -20,6 +20,8 @@ const Main = () => {
     const [totalClientMembre, setTotalClientMembre] = useState(null)
     const [impressionData, setImpressionData] = useState([])
     const [venteData, setVenteData] = useState([])
+    const [chiffreAffaire, setChiffreAffaire] = useState(0)
+    const [clientClassement, setClientClassement] = useState([])
 
     //Récuperer le nombre total de client membre inscrit
     const getNombreClientMembre = async () => {
@@ -51,10 +53,37 @@ const Main = () => {
         }
     }
 
+    //Récupérer le chiffre d'affaire global
+    const getChiffreAffaire = async () => {
+        try {
+            const chiffreAffaire = await window.electronAPI.getChiffreAffaireGlobal()
+            setChiffreAffaire(chiffreAffaire.chiffre_affaire_total)
+        } catch (error) {
+            console.log("Erreur lors de la récupération du chiffre d'affaire", error.message)
+        }
+    }
+
+    //Récupérer le classement des clients
+    const getDataClassementClient = async () => {
+        try {
+            const dataClassementClient = await window.electronAPI.getClassementClient()
+            setClientClassement(dataClassementClient)
+        } catch (error) {
+            console.log("Erreur lors de la récupération du classement des clients", error.message)
+        }
+    }
+
+    const getSuffixeClassement = (index) => {
+        const suffixes = ["er", "nd"]
+        return `${index + 1}${suffixes[index] || "e"}`
+    }
+
     useEffect(() => {
         getNombreClientMembre()
         getTotalCommandeImpression()
         getTotalVente()
+        getChiffreAffaire()
+        getDataClassementClient()
     }, [])
 
     return(
@@ -83,7 +112,7 @@ const Main = () => {
 
             <div className="products">
                 <div className="typeProduct">
-                    <CardProduct title="Chiffre d’affaire" icon={iconCash} totalProduct = "125">
+                    <CardProduct title="Chiffre d’affaire" icon={iconCash} totalProduct = {`${chiffreAffaire.toLocaleString()} Ar`}>
                     </CardProduct>
                 </div>
                 <div className="typeProduct">
@@ -120,18 +149,19 @@ const Main = () => {
             </div>
 
             <div className="rankingClient">
-                <div className="cardClassement">
-                    <RankingCard classement="1er rang" nomClient='Mario ralison' lieuTravail='Ambalavao' matricule='256' nombreImpression='124'></RankingCard>
-                </div>
-                <div className="cardClassement">
-                    <RankingCard classement="2nd rang" nomClient='Mario ralison' lieuTravail='Ambalavao' matricule='256' nombreImpression='110'></RankingCard>
-                </div>
-                <div className="cardClassement">
-                    <RankingCard classement="3e rang" nomClient='Mario ralison' lieuTravail='Ambalavao' matricule='256' nombreImpression='90'></RankingCard>
-                </div>
-                <div className="cardClassement">
-                    <RankingCard classement="4e rang" nomClient='Mario ralison' lieuTravail='Ambalavao' matricule='256' nombreImpression='80'></RankingCard>
-                </div>
+                {
+                    clientClassement.map((data, index) => (
+                        <div className="cardClassement" key={index}>
+                            <RankingCard
+                                classement={`${getSuffixeClassement(index)} rang`}
+                                nomClient={data.nameCLient} 
+                                lieuTravail={data.lieuTravail} 
+                                matricule={data.matricule} 
+                                nombreImpression={data.totalImpression}
+                            />
+                        </div>
+                    ))
+                }
             </div>
         </div>
     )

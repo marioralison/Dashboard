@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     deleteClient : (matricule) => ipcRenderer.invoke('data:deleteClient', matricule),
     updateClientStat : (matriculeClient, additionalImpression, totalDepense) => ipcRenderer.invoke('updateClientStat', matriculeClient, additionalImpression, totalDepense),
     getTotalClientMembre : () => ipcRenderer.invoke('getTotalClientMembre'),
+    getClassementClient : () => ipcRenderer.invoke('getClassementClient'),
 
     addCommandeImpression : (commande) => ipcRenderer.invoke('addCommandeImpression', commande),
     getCommandesImpression : () => ipcRenderer.invoke('getCommandImpression'),
@@ -26,5 +27,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     addVente : (commande) => ipcRenderer.invoke('addVente', commande),
     getVentes : () => ipcRenderer.invoke('getVentes'),
     deleteVenteRow : (id) => ipcRenderer.invoke('deleteVenteRow', id),
-    getTotalVente : () => ipcRenderer.invoke('getTotalVente')
+    getTotalVente : () => ipcRenderer.invoke('getTotalVente'),
+
+    getChiffreAffaireGlobal : () => ipcRenderer.invoke('getChiffreAffaireGlobal')
 })

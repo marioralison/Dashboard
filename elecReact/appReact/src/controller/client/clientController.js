@@ -136,6 +136,30 @@ const getTotalClientMembre = async () => {
     })
 }
 
+const getClassementClient = async () => {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT 
+                nameCLient,
+                matricule,
+                lieuTravail,
+                totalImpression
+            FROM Clients
+            ORDER BY 
+                totalImpression DESC
+            LIMIT 4;
+        `
+        db.all(query, (err, rows) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
 module.exports = {
                     addClient,
                     getClient, 
@@ -143,5 +167,6 @@ module.exports = {
                     updateClient, 
                     getClientByMatricule, 
                     updateClientStat,
-                    getTotalClientMembre
+                    getTotalClientMembre,
+                    getClassementClient
                 }

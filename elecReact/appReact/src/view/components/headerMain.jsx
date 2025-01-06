@@ -13,7 +13,6 @@ const HeaderMain = (props) => {
                 <div className="accountSection">
                     <img src={props.iconNotification} alt="iconNotification" className="icon"/>
                     <div className="user">
-                        <img src={props.iconUser} alt="iconUser" className="icon"/>
                         <div className="UserInfo">
                             <h3 className="nomUser">{userName}</h3>
                             <h5 className="roleUser">Manager du multiservice</h5>

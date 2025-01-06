@@ -9,13 +9,11 @@ const Ranking = (props) => {
                     <h3 className="rankingText">{props.classement}</h3>
                 </div>
             </div>
-            <div className="rankingImage">
-                <div className="imageContainer"></div>
-            </div>
             <div className="rankingInfo">
-                <h3>{props.nomClient}</h3>
-                <h5>{props.lieuTravail}</h5>
-                <h5>Impression : {props.nombreImpression} photo</h5>
+                <h3 className="nomClient">{props.nomClient}</h3>
+                <h5>Matricule : {props.matricule}</h5>
+                <h5>Lieu Travail : {props.lieuTravail}</h5>
+                <h5>Impression A6 : {props.nombreImpression} photos</h5>
             </div>
         </section>
     )

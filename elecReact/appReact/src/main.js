@@ -61,6 +61,7 @@ const deleteClient = require('./controller/client/clientController.js')
 const updateClient = require('./controller/client/clientController.js')
 const updateClientStat = require('./controller/client/clientController.js')
 const getTotalClientMembre = require('./controller/client/clientController.js')
+const getClassementClient = require('./controller/client/clientController.js')
 
 const addCommandImpression = require('./controller/commandes/commandeController.js')
 const getCommands = require('./controller/commandes/commandeController.js')
@@ -75,6 +76,17 @@ const addVente = require('./controller/vente/venteController.js')
 const getVentes = require('./controller/vente/venteController.js')
 const deleteVenteRow = require('./controller/vente/venteController.js')
 const getTotalVente = require('./controller/vente/venteController.js')
+
+const chiffreAffaireGlobal = require('./controller/chiffreAffaireController.js')
+
+
+//-------------------------GESTION UTILISATEUR------------------------
+
+ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
+ipcMain.handle('mdp:hash', hashageMPD.createPassword)
+ipcMain.handle('mdp:Verify', verifyMDP.verificationMdp)
+ipcMain.handle('userNameData', dataUser.user)
+
 
 
 //--------------------------GESTION CLIENT-----------------------
@@ -130,18 +142,14 @@ ipcMain.handle('getTotalClientMembre', async () => {
   }
 })
 
-
-//-------------------------GESTION UTILISATEUR------------------------
-
-//Ajout utilisateur
-ipcMain.handle('data:addUser', ajoutUser.handleAddUser)
-
-//Gestion de mot de passe User
-ipcMain.handle('mdp:hash', hashageMPD.createPassword)
-ipcMain.handle('mdp:Verify', verifyMDP.verificationMdp)
-ipcMain.handle('userNameData', dataUser.user)
-
-
+ipcMain.handle('getClassementClient', async () => {
+  try {
+    const results = await getClassementClient.getClassementClient()
+    return results
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de récupération du classement client', error.message)
+  }
+})
 
 //-------------------------GESTION COMMANDES-----------------------------
 
@@ -240,10 +248,21 @@ ipcMain.handle('deleteVenteRow', async (event, id) => {
 })
 
 ipcMain.handle('getTotalVente', async () => {
-  try {
+  try { 
     const results = await getTotalVente.getTotalVente()
     return results
   } catch (error) {
     console.log('Erreur au niveau de la fonction de récupération total vente', error.message)
+  }
+})
+
+//------------------- CHIFFRE D'AFFAIRE ------------------------
+
+ipcMain.handle('getChiffreAffaireGlobal', async () => {
+  try {
+    const result = chiffreAffaireGlobal.getChiffreAffaireGlobal()
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de récupération total chiffre affaire', error.message)
   }
 })

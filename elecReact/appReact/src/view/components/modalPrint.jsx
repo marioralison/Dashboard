@@ -88,7 +88,6 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
             else{
                 setInputError(true)
                 setInputSuccess(false)
-                console.log('Client introuvable dans la base de donnée !')
                 setCommande((prev) => ({ ...prev, nomClient: ''}))
             }
         } catch (error) {
@@ -142,7 +141,6 @@ const ModalPrint = ({closeModal, refreshCommandeTable}) => {
                         Number(commande.nombre), //Total impression faite par le client
                         totalMontantCommande  //Total depense
                     )
-                    console.log('Statistique du client mise à jour')
                 }
 
                 //Réinitialisation des champs après l'enregistrement
