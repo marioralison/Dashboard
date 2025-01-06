@@ -12,23 +12,23 @@ const Short = ({option1, option2, onSelect}) => {
             <div className="shortSelection">
                 <input 
                     type="radio" 
-                    id="client" 
+                    id="Cadre" 
                     value="Cadre" 
                     name="select" 
                     defaultChecked
                     onChange={handleChange}
                 />
-                <label className="selection" htmlFor="client">{option1}</label>
+                <label className="selection" htmlFor="Cadre">{option1}</label>
             </div>
             <div className="shortSelection">
                 <input 
                     type="radio" 
-                    id="membre" 
+                    id="Plastification" 
                     value="Plastification" 
                     name="select"
                     onChange={handleChange}
                 />
-                <label className="selection" htmlFor="membre">{option2}</label>
+                <label className="selection" htmlFor="Plastification">{option2}</label>
             </div>
         </section>
     )

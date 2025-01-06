@@ -25,5 +25,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     addVente : (commande) => ipcRenderer.invoke('addVente', commande),
     getVentes : () => ipcRenderer.invoke('getVentes'),
-    deleteVenteRow : (id) => ipcRenderer.invoke('deleteVenteRow', id)
+    deleteVenteRow : (id) => ipcRenderer.invoke('deleteVenteRow', id),
+    getTotalVente : () => ipcRenderer.invoke('getTotalVente')
 })

@@ -73,8 +73,8 @@ const getProductById = require('./controller/products/productController.js')
 
 const addVente = require('./controller/vente/venteController.js')
 const getVentes = require('./controller/vente/venteController.js')
-const deleteVenteRow = require('./controller/vente/venteController.js');
-const { constSelector } = require('recoil');
+const deleteVenteRow = require('./controller/vente/venteController.js')
+const getTotalVente = require('./controller/vente/venteController.js')
 
 
 //--------------------------GESTION CLIENT-----------------------
@@ -236,5 +236,14 @@ ipcMain.handle('deleteVenteRow', async (event, id) => {
     return result
   } catch (error) {
     console.log('Erreur au niveau de la fonction de supression vente', error.message)
+  }
+})
+
+ipcMain.handle('getTotalVente', async () => {
+  try {
+    const results = await getTotalVente.getTotalVente()
+    return results
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de récupération total vente', error.message)
   }
 })

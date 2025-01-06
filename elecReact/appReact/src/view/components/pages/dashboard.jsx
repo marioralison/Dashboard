@@ -6,7 +6,7 @@ import iconUser from '../../icons/Account.png';
 import iconFrame from '../../icons/Frame.png';
 import iconCash from '../../icons/cash.png';
 import iconGallery from '../../icons/Gallery.png';
-import iconImage from '../../icons/Image.png';
+import iconPlastification from '../../icons/plastification.png';
 import iconClient from '../../icons/Workspace.png';
 
 import CardMain from "../cardMain.jsx";
@@ -17,8 +17,9 @@ import HeaderMain from "../headerMain.jsx";
 
 const Main = () => {
 
-    const [impressionData, setImpressionData] = useState([])
     const [totalClientMembre, setTotalClientMembre] = useState(null)
+    const [impressionData, setImpressionData] = useState([])
+    const [venteData, setVenteData] = useState([])
 
     //Récuperer le nombre total de client membre inscrit
     const getNombreClientMembre = async () => {
@@ -30,20 +31,30 @@ const Main = () => {
         }
     }
 
-    //Récupérer le donnée des commandes 'impression'
+    //Récupérer les donnée des commandes 'impression'
     const getTotalCommandeImpression = async () => {
         try {
             const dataImpression = await window.electronAPI.getTotalCommandeImpression()
             setImpressionData(dataImpression)
-            console.log(dataImpression)
         } catch (error) {
             console.log('Erreur lors de la récupération des données commande', error.message)
+        }
+    }
+
+    //Récupérer les données des ventes
+    const getTotalVente = async () => {
+        try {
+            const dataVente = await window.electronAPI.getTotalVente()
+            setVenteData(dataVente)
+        } catch (error) {
+            console.log('Erreur lors de la récupération des données vente', error.message)
         }
     }
 
     useEffect(() => {
         getNombreClientMembre()
         getTotalCommandeImpression()
+        getTotalVente()
     }, [])
 
     return(
@@ -79,11 +90,23 @@ const Main = () => {
                     <CardProduct title='Membre inscrit' icon={iconClient} totalProduct = {totalClientMembre}>
                     </CardProduct>
                 </div>
+
                 {
                     impressionData.map((data, index) => {
                         return(
                             <div className="typeProduct" key={index}>
                                 <CardProduct title={`${data.produit_nom} ${data.format}`} icon={iconGallery} totalProduct ={data.nombre} totalPrice={`${data.total_montant.toLocaleString()} Ar`}>
+                                </CardProduct>
+                            </div>
+                        )
+                    })
+                }
+
+                {
+                    venteData.map((data, index) => {
+                        return(
+                            <div className="typeProduct" key={index}>
+                                <CardProduct title={`${data.produit_nom} ${data.format}`} icon={data.produit_id === 2 ? iconFrame : iconPlastification} totalProduct ={data.nombre} totalPrice={`${data.total_montant.toLocaleString()} Ar`}>
                                 </CardProduct>
                             </div>
                         )

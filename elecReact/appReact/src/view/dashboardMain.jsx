@@ -60,7 +60,7 @@ const Dashboard = () => {
                     <div className="containerNav">
                         <ul>
                             <li onClick={navigateToMain}><NavButton title='Tableau de bord' icon={iconDash}></NavButton></li>
-                            <li onClick={navigateToPrint}><NavButton title='Liste impression' icon={iconListPrint}></NavButton></li>
+                            <li onClick={navigateToPrint}><NavButton title='Impression' icon={iconListPrint}></NavButton></li>
                             <li onClick={navigateToVente}><NavButton title='Ventes' icon={iconSell}></NavButton></li>
                             <li onClick={navigateToClient}><NavButton title='Clients' icon={iconClient}></NavButton></li>
                             <li><NavButton title='Suivie opération' icon={iconChart}></NavButton></li>

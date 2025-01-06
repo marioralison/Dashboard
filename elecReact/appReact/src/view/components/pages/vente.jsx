@@ -12,7 +12,7 @@ const Vente = () => {
 
     const [openModal, setOpenModal] = useState(false)
     const [ventes, setVentes] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState('')  // État pour la catégorie sélectionnée
+    const [selectedCategory, setSelectedCategory] = useState('Cadre')
 
     const handleModal = () => {
         setOpenModal(true)
@@ -85,7 +85,7 @@ const Vente = () => {
                                 <tr key={index}>
                                     <td>{vente.id}</td>
                                     <td>{vente.nom_client}</td>
-                                    <td>{vente.categorie} {vente.format}</td>
+                                    <td>{vente.categorie} - {vente.format}</td>
                                     <td>{vente.nombre}</td>
                                     <td>{vente.montant_total} Ar</td>
                                     <td>{vente.date}</td>

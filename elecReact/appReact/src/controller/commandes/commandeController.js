@@ -67,7 +67,7 @@ const getTotalCommandeImpression = async () => {
             SELECT 
                 p.nom AS produit_nom,
                 Commandes.format,
-                COUNT(Commandes.format) AS nombre,
+                SUM(Commandes.nombre) AS nombre,
                 SUM(Commandes.montant_total) AS total_montant
             FROM 
                 Commandes

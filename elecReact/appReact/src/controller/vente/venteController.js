@@ -34,7 +34,19 @@ const addVente = (commande) => {
 const getVentes = async () => {
     return new Promise ((resolve, reject) => {
         const query = `
-            SELECT * FROM Ventes
+            SELECT 
+                v.id,
+                v.type_client,
+                v.nom_client,
+                v.nombre,
+                p.nom AS categorie,
+                v.format,
+                v.date,
+                v.montant_total
+            FROM 
+                Ventes v
+            JOIN 
+                Produits p ON v.categorie = p.id
         `
         db.all(query, (err, rows) => {
             if (err) {
@@ -65,4 +77,31 @@ const deleteVenteRow = async (id) => {
     })
 }
 
-module.exports = {addVente, getVentes, deleteVenteRow}
+const getTotalVente = async () => {
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT 
+                p.id AS produit_id,
+                p.nom AS produit_nom,
+                v.format,
+                SUM(v.nombre) AS nombre,
+                SUM(v.montant_total) AS total_montant
+            FROM 
+                Ventes v
+            JOIN 
+                Produits p ON v.categorie = p.id
+            GROUP BY 
+                p.nom, v.format
+        `
+        db.all(query, (err, rows) => {
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(rows)
+            }
+        })
+    })
+}
+
+module.exports = {addVente, getVentes, deleteVenteRow, getTotalVente}

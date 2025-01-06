@@ -128,11 +128,11 @@ const ModalPrint = ({closeModal, refreshVenteTableau}) => {
             const selectedProduct = products.find((produit) => produit.id === Number(productId));
             
             if (selectedProduct) {
-                const productName = selectedProduct.nom;
+                const idProduitSelected = selectedProduct.id;
 
                 setCommande((prev) => ({
                     ...prev,
-                    categorie: productName, 
+                    categorie: idProduitSelected,
                 }));
     
                 fetchProductById(productId);
