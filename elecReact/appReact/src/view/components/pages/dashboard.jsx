@@ -91,25 +91,6 @@ const Main = () => {
 
             <HeaderMain title='Tableau de bord' iconNotification={iconNotification} iconUser={iconUser}></HeaderMain>
 
-            <div className="short">
-                <div className="shortType">
-                    <CardMain>
-                        <div className="shortContent">
-                            <input type="radio" id="semaine" value="Semaine" name="short" defaultChecked/>
-                            <label htmlFor="semaine" className="shortTitle">Semaine</label>
-                        </div>
-                        <div className="shortContent">
-                            <input type="radio" id="mois" value="Mois" name="short"/>
-                            <label htmlFor="mois" className="shortTitle">Mois</label>
-                        </div>
-                        <div className="shortContent">
-                            <input type="radio" id="Annee" value="Annee" name="short"/>
-                            <label htmlFor="Annee" className="shortTitle">Année</label>
-                        </div>
-                    </CardMain>
-                </div>
-            </div>
-
             <div className="products">
                 <div className="typeProduct">
                     <CardProduct title="Chiffre d’affaire" icon={iconCash} totalProduct = {`${chiffreAffaire.toLocaleString()} Ar`}>

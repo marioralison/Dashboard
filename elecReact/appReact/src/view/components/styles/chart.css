@@ -22,7 +22,33 @@
     height: 10%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
+
+.headerChart .selectChart{
+    height: 2.5rem;
+    width: 9rem;
+}
+
+.headerChart .selectChart select{
+    width: 100%;
+    height: 100%;
+    padding: 0 0.5rem;
+    background-color: #359BC9;
+    color: #ffffff;
+    border-radius: 0.6rem;
+    border: none;
+}
+
+.headerChart .selectChart select option{
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.headerChart .selectChart select:focus{
+    border: none;
+}
+
 
 .titleRapport{
     font-weight: 500;
