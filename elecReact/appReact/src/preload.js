@@ -29,5 +29,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     deleteVenteRow : (id) => ipcRenderer.invoke('deleteVenteRow', id),
     getTotalVente : () => ipcRenderer.invoke('getTotalVente'),
 
-    getChiffreAffaireGlobal : () => ipcRenderer.invoke('getChiffreAffaireGlobal')
+    getChiffreAffaireGlobal : () => ipcRenderer.invoke('getChiffreAffaireGlobal'),
+
+    getStatProduits : () => ipcRenderer.invoke('getStatProduits')
 })

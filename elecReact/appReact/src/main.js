@@ -79,6 +79,8 @@ const getTotalVente = require('./controller/vente/venteController.js')
 
 const chiffreAffaireGlobal = require('./controller/chiffreAffaireController.js')
 
+const getStatProduit = require('./controller/stats/statController.js')
+
 
 //-------------------------GESTION UTILISATEUR------------------------
 
@@ -264,5 +266,17 @@ ipcMain.handle('getChiffreAffaireGlobal', async () => {
     return result
   } catch (error) {
     console.log('Erreur au niveau de la fonction de récupération total chiffre affaire', error.message)
+  }
+})
+
+
+// GESTION STATS
+
+ipcMain.handle('getStatProduits', async () => {
+  try {
+    const results = getStatProduit.getProduitStatData()
+    return results
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction de récupération des statistiques', error.message)
   }
 })
