@@ -38,6 +38,17 @@
     height: auto;
 }
 
+.containerNav ul li.active {
+    background-color: var(--backgroundBtn);
+    color: #ffffff;
+    border-radius: 10px;
+    transition: background-color 0.5s ease; /* Animation douce */
+}
+
+.containerNav ul li.logout.active {
+    background-color: #ffcccc; 
+}
+
 ul{
     list-style-type: none;
     width: 100%;
@@ -60,5 +71,4 @@ li{
     align-items: center;
     width: 80%;
     height: 100%;
-    border: 1px solid black;
 }

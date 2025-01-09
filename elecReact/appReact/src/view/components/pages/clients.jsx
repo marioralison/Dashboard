@@ -7,7 +7,7 @@ import iconAdd from '../../icons/Add.png';
 
 import HeaderMain from "../headerMain.jsx";
 import AddButton from "../addButton.jsx";
-import Short from "../shortTypeClient.jsx";
+import Short from "../shortListClient.jsx";
 import ModalClient from "../modalClient.jsx"
 
 const Client = () => {
@@ -15,12 +15,13 @@ const Client = () => {
     const [openModal, setOpenModal] = useState(false)
     const [client, setClient] = useState([]) //Stockage des données des clients dans un tableau
     const [clientToEdit, setClientToEdit] = useState(null)
+    const [ordreTri, setOrdreTri] = useState('croissant')
     const [message, setMessage] = useState('')
 
     //Chargement du fenetre du tableau
-    const fetchClient = async () => {
+    const fetchClient = async (ordre = 'ASC') => {
         try {
-            const dataClient = await window.electronAPI.getClient()
+            const dataClient = await window.electronAPI.getClient(ordre)
             setClient(dataClient)
         } catch (error) {
             setMessage('Erreur lors de la récupération des données')
@@ -65,6 +66,12 @@ const Client = () => {
         }
     }
 
+    const handleSortClientList = (order) => {
+        const orderQuery = order === 'croissant' ? 'ASC' : 'DESC'
+        setOrdreTri(order)
+        fetchClient(orderQuery)
+    }
+
     //Synchnorisation de l'ajout et la chargement du fenetre
     useEffect(() => {
         fetchClient()
@@ -78,7 +85,11 @@ const Client = () => {
             <div className="searchSection">
                 <li onClick={() => handleModal()}><AddButton icon={iconAdd} title='Nouveau client'></AddButton></li>
                 <div className="shortClient">
-                    <Short option1='Croissant' option2='Décroissant'></Short>
+                    <Short 
+                        option1='Croissant' 
+                        option2='Décroissant'
+                        onSelect={handleSortClientList}
+                    />
                 </div>
             </div>
 
@@ -108,12 +119,12 @@ const Client = () => {
                                     <td className="Action">
 
                                         <button 
-                                            style={{color: 'blue',marginRight: '1.5rem'}}
+                                            style={{color: '#6D92C2',marginRight: '1.5rem'}}
                                             onClick={() => {handleModal(client)}}
                                         >Modifier</button>
 
                                         <button
-                                            style={{color: 'red'}}
+                                            style={{color: '#E84030'}}
                                             onClick={() => {
                                                 deleteClient(client.matricule)
                                             }}

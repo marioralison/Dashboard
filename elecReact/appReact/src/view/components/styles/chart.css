@@ -27,15 +27,18 @@
 
 .headerChart .selectChart{
     height: 2.5rem;
-    width: 9rem;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .headerChart .selectChart select{
     width: 100%;
     height: 100%;
     padding: 0 0.5rem;
-    background-color: #359BC9;
-    color: #ffffff;
+    background-color: #bed7df;
+    color: #000000;
     border-radius: 0.6rem;
     border: none;
 }
@@ -49,6 +52,14 @@
     border: none;
 }
 
+.headerChart .selectChart .select-date {
+    height: 100%;
+    width: fit-content;
+    background: none;
+    border: 1px solid #3a4eff;
+    border-radius: 0.6rem;
+    padding: 0 0.5rem;
+}
 
 .titleRapport{
     font-weight: 500;

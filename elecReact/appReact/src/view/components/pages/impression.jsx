@@ -112,7 +112,7 @@ const Print = () => {
                                     <td className="Action">
 
                                         <button
-                                            style={{color: 'red'}}
+                                            style={{color: '#E84030'}}
                                             onClick={() => {
                                                 deleteCommande(commands.id)
                                             }}

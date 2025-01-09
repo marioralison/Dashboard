@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     mdpVerify : (name, inputPassword) => ipcRenderer.invoke('mdp:Verify', name, inputPassword),
 
     addClient : (matricule ,name, workPlace, numberPhone) => ipcRenderer.invoke('data:addClient', matricule, name, workPlace, numberPhone),
-    getClient : () => ipcRenderer.invoke('row:client'),
+    getClient : (ordre) => ipcRenderer.invoke('row:client', ordre),
     getClientByMatricule: (matricule) => ipcRenderer.invoke('getClientByMatricule', matricule),
     deleteClient : (matricule) => ipcRenderer.invoke('data:deleteClient', matricule),
     updateClientStat : (matriculeClient, additionalImpression, totalDepense) => ipcRenderer.invoke('updateClientStat', matriculeClient, additionalImpression, totalDepense),

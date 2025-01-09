@@ -91,7 +91,7 @@ const Vente = () => {
                                     <td>{vente.date}</td>
                                     <td className="iconAction">
                                         <button
-                                            style={{color: 'red'}}
+                                            style={{color: '#E84030'}}
                                             onClick={ () => deleteVenteRow(vente.id) }
                                         >Supprimer</button>
                                     </td>

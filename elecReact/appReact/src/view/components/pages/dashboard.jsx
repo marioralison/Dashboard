@@ -97,7 +97,7 @@ const Main = () => {
                     </CardProduct>
                 </div>
                 <div className="typeProduct">
-                    <CardProduct title='Membre inscrit' icon={iconClient} totalProduct = {totalClientMembre}>
+                    <CardProduct title='Membre inscrit' icon={iconClient} totalProduct = {totalClientMembre} information={totalClientMembre ? 'Membres' : ''}>
                     </CardProduct>
                 </div>
 
@@ -105,7 +105,7 @@ const Main = () => {
                     impressionData.map((data, index) => {
                         return(
                             <div className="typeProduct" key={index}>
-                                <CardProduct title={`${data.produit_nom} ${data.format}`} icon={iconGallery} totalProduct ={data.nombre} totalPrice={`${data.total_montant.toLocaleString()} Ar`}>
+                                <CardProduct title={`${data.produit_nom} ${data.format}`} icon={iconGallery} totalProduct ={data.nombre} information={`${data.total_montant.toLocaleString()} Ar`}>
                                 </CardProduct>
                             </div>
                         )

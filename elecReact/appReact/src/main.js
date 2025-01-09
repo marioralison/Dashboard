@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs')
+const path = require('path')
 
 // ---------------- GESTION AU NIVEAU DU POINT D'ENTREE ELECTRON --------------------
 
@@ -13,6 +14,8 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    title: 'Best photo Dashboard',
+    icon: path.join(__dirname, 'assets/icons/iconDashboard.ico'),
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: true,
@@ -94,7 +97,14 @@ ipcMain.handle('userNameData', dataUser.user)
 //--------------------------GESTION CLIENT-----------------------
 
 ipcMain.handle('data:addClient', addClient.addClient)
-ipcMain.handle('row:client', getClient.getClient)
+ipcMain.handle('row:client', async (event, ordre) => {
+  try {
+    const result = await getClient.getClient(ordre)
+    return result
+  } catch (error) {
+    console.log('Erreur au niveau de la fonction récupération de la liste des client')
+  }
+})
 
 ipcMain.handle('getClientByMatricule', async(event, matricule) => {
   try {

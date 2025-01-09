@@ -29,9 +29,9 @@ const addClient = async (event, matricule, nomClient, lieuTravail, numeroPhone) 
     }
 }
 
-const getClient = () => {
+const getClient = (ordre = 'ASC') => {
     return new Promise((resolve, reject) => {
-        db.all('SELECT * FROM Clients', [], (err, rows) => {
+        db.all(`SELECT * FROM Clients ORDER BY matricule ${ordre}`, [], (err, rows) => {
             if (err){
                 reject(err)
             }

@@ -15,7 +15,7 @@ const CardProduct = (props) => {
             </div>
             <div className="bodyCard">
                 <h3 className="totalProduct">{props.totalProduct}</h3>
-                <h5 className="totalPrice">{props.totalPrice}</h5>
+                <h5 className="information">{props.information}</h5>
             </div>
         </section>
     );
