@@ -1,5 +1,4 @@
 import './styles/signUp.css';
-import './components/styles/button.css'
 import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -51,9 +50,9 @@ const SignUp = () => {
     return (
         
         <div className='containerLogin'>
-            <div className='logoImage'>
-                <img src={Logo} alt='logo'/>
-            </div>
+            
+            <img src={Logo} alt='logo'/>
+
             <div className='bodyLogin'>
                 <Card>
                     <div className='containerForm'>
@@ -111,8 +110,8 @@ const SignUp = () => {
                                     /> Utilisateur
                                 </label>
                             </div>
-                            <button className='button'>S'inscrire</button>
                         </form>
+                        <button className='button' onClick={userSubmit}>S'inscrire</button>
                     </div>
                     {message && (
                         <p className={`alertMessage ${message === "Utilisateur ajouté avec succès !" ? "success" : "error"}`}>
@@ -120,10 +119,10 @@ const SignUp = () => {
                         </p>
                     )}
                 </Card>
-                <div className='link'>
-                    <button onClick={navigateToSignIn}>Se connecter</button>
-                </div>
             </div>
+
+            <button className='btn-subscribe' onClick={navigateToSignIn}>Se connecter</button>
+        
         </div>
     );
 }

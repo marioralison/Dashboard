@@ -63,9 +63,9 @@ const SignIn = () => {
 
     return (
         <div className='containerLogin'>
-            <div className='logoImage'>
-                <img src={Logo} alt='logo'/>
-            </div>
+
+            <img src={Logo} alt='logo'/>
+
             <div className='bodyLogin'>
                 <Card>
                     <div className='containerForm'>
@@ -110,10 +110,10 @@ const SignIn = () => {
                         </p>
                     )}
                 </Card>
-                <div className='link'>
-                    <button onClick={navigateToSignUp}>S'inscrire</button>
-                </div>
             </div>
+
+            <button className="btn-subscribe" onClick={navigateToSignUp}>S'inscrire</button>
+        
         </div>
     );
 }

@@ -1,61 +1,78 @@
 .containerLogin{
+    height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    height: 1010px;
+    background-color: #DBE9FF;
+}
+
+/* ---------- Header login ----------- */
+
+.containerLogin img{
+    height: auto;
+    max-width: 17%;
+}
+
+/* ------------- Body login --------------- */
+
+.bodyLogin{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .containerForm{
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    padding: 25px 15px;
-}
-
-.logoImage{
-    height: 20%;
-    display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-.logoImage img{
-    margin-top: 15vh;
-}
-
-.bodyLogin{
-    height: 80%;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    width: 100%;
+    gap: 5vh;
 }
 
-.form{
+.containerForm .description{
+    text-align: center;
+}
+
+.containerForm .description label, p{
+    padding: 0;
+    margin: 0;
+}
+
+.containerForm .description p {
+    font-family: NormalLight;
+}
+
+.containerForm .description .titleLog{
+    font-size: clamp(1.8rem, calc(1.5vw + 0.8rem), 6rem);
+    font-family: semiBold;
+}
+
+.containerForm .form{
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-}
-
-.description{
-    text-align: center;
-    width: fit-content;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1.5em;
+    width: 100%;
 }
 
 .inputUser{
+    width: 100%;
+    height: 3em;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 45px;
-    padding: 0 10px;
     border-radius: 10px;
     border: 0.5px solid black;
-    padding-left: 15px;
+    padding-left: 1vw;
     font-size: 16px;
     font-family: regular;
 }
 
-input{
+.inputUser input{
     height: 80%;
     width: 90%;
     outline: none;
@@ -64,19 +81,15 @@ input{
     font-size: 16px;
 }
 
-img{
-    width: fit-content;
-    height: 80px;
-}
-
-.titleLog{
-    font-size: 42px;
-    font-family: semiBold;
-}
-
-Button{
+.containerForm .button{
+    width: 100%;
     font-size: 16px;
     font-family: regular;
+    height: 2.8em;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--backgroundBtn);
+    color: #ffffff;
 }
 
 p{
@@ -92,15 +105,7 @@ p{
     color: rgb(206, 67, 67);
 }
 
-.link{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10%;
-}
-
-.link button {
+.btn-subscribe {
     background: none;
     border: none;
     color: #006797;
@@ -109,19 +114,20 @@ p{
 }
 
 .checkbox{
-    /* border: 1px solid black; */
+    width: 100%;
     height: fit-content;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
+    gap: 2em;
     font-size: 14px;
 }
 
 .checkbox label{
     margin: 0;
     font-family: regular;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
 }
 

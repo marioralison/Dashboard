@@ -14,16 +14,16 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    title: 'Best photo Dashboard',
+    title: 'Dashboard',
     icon: path.join(__dirname, 'assets/icons/iconDashboard.ico'),
     webPreferences: {
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      preload: path.join(__dirname, MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY),
       contextIsolation: true,
     },
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  mainWindow.loadURL('./index.html');
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();

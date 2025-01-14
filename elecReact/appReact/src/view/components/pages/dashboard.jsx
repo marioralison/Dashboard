@@ -116,7 +116,7 @@ const Main = () => {
                     venteData.map((data, index) => {
                         return(
                             <div className="typeProduct" key={index}>
-                                <CardProduct title={`${data.produit_nom} ${data.format}`} icon={data.produit_id === 2 ? iconFrame : iconPlastification} totalProduct ={data.nombre} totalPrice={`${data.total_montant.toLocaleString()} Ar`}>
+                                <CardProduct title={`${data.produit_nom} ${data.format}`} icon={data.produit_id === 2 ? iconFrame : iconPlastification} totalProduct ={data.nombre} information={`${data.total_montant.toLocaleString()} Ar`}>
                                 </CardProduct>
                             </div>
                         )
