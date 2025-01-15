@@ -28,6 +28,10 @@
     height: 7%;
 }
 
+.searchSection li{
+    list-style: none;
+}
+
 .shortImpression{
     display: flex;
     align-items: center;
@@ -98,4 +102,22 @@ table tr {
 
 ::-webkit-scrollbar-thumb:hover{
     background: #437388;
+}
+
+.containerPrint .searchSection .date-section{
+    width: fit-content;
+    height: fit-content;
+}
+
+.containerPrint .searchSection .date-section .select-date {
+    height: 100%;
+    width: auto;
+    width: fit-content;
+    background: #ffffff;
+    border-radius: 0.6rem;
+    padding: 0.8rem 0.8rem;
+}
+
+.containerPrint .searchSection .date-section .select-date{
+    cursor: pointer;
 }

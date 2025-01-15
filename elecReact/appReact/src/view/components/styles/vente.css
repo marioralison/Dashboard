@@ -20,12 +20,30 @@
 
 /* ----------------------------- */
 
-.searchSection{
+.containerVente .selectionSection{
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     height: 7%;
+}
+
+.containerVente .selectionSection li{
+    list-style: none;
+}
+
+.containerVente .selectionSection .date-section{
+    width: fit-content;
+    height: fit-content;
+}
+
+.containerVente .selectionSection .date-section .select-date{
+    height: 100%;
+    width: auto;
+    width: fit-content;
+    background: #ffffff;
+    border-radius: 0.6rem;
+    padding: 0.8rem 0.8rem;
 }
 
 .shortVente{

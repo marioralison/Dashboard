@@ -84,6 +84,11 @@ const Client = () => {
 
             <div className="searchSection">
                 <li onClick={() => handleModal()}><AddButton icon={iconAdd} title='Nouveau client'></AddButton></li>
+                
+                <div className="searchBar">
+                    
+                </div>
+                
                 <div className="shortClient">
                     <Short 
                         option1='Croissant' 

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../styles/vente.css';
+import dayjs from "dayjs";
+
 import iconNotification from '../../icons/Notification.png';
 import iconUser from '../../icons/Account.png';
 import iconAdd from '../../icons/Add.png';
@@ -9,59 +11,75 @@ import Short from "../shortTypeVente.jsx";
 import ModalVente from '../modalVente.jsx';
 
 const Vente = () => {
-
-    const [openModal, setOpenModal] = useState(false)
-    const [ventes, setVentes] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState('Cadre')
+    const [openModal, setOpenModal] = useState(false);
+    const [ventes, setVentes] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('Cadre');
+    const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD")); // État pour la date sélectionnée
 
     const handleModal = () => {
-        setOpenModal(true)
-    }
+        setOpenModal(true);
+    };
 
     const fetchVentes = async () => {
         try {
-            const venteRows = await window.electronAPI.getVentes()
-            setVentes(venteRows)
+            const venteRows = await window.electronAPI.getVentes();
+            setVentes(venteRows);
         } catch (error) {
-            console.log('Erreur lors de la récupération des données', error.message)
+            console.log('Erreur lors de la récupération des données', error.message);
         }
-    }
+    };
 
     const deleteVenteRow = async (id) => {
         try {
-            const result = await window.electronAPI.deleteVenteRow(id)
+            const result = await window.electronAPI.deleteVenteRow(id);
             if (result.success) {
-                fetchVentes()
-                console.log('Suppression effectuée avec succès !')
+                fetchVentes();
+                console.log('Suppression effectuée avec succès !');
             } else {
-                console.log('Erreur lors de la suppression de commande', error.message)
+                console.log('Erreur lors de la suppression de commande', error.message);
             }
         } catch (error) {
-            console.log('Il y a une erreur au niveau de la suppression de commande !', error.message)
+            console.log('Il y a une erreur au niveau de la suppression de commande !', error.message);
         }
-    }
+    };
 
-    // Fonction pour filtrer les ventes en fonction de la catégorie sélectionnée
-    const filteredVentes = selectedCategory
-        ? ventes.filter((vente) => vente.categorie.toLowerCase().includes(selectedCategory.toLowerCase()))
-        : ventes;
+    // Fonction pour filtrer les ventes en fonction de la catégorie et de la date
+    const filteredVentes = ventes.filter((vente) => {
+        const matchesCategory = selectedCategory
+            ? vente.categorie.toLowerCase().includes(selectedCategory.toLowerCase())
+            : true;
+
+        const matchesDate = selectedDate
+            ? new Date(vente.date).toISOString().split('T')[0] === selectedDate
+            : true;
+
+        return matchesCategory && matchesDate;
+    });
 
     useEffect(() => {
-        fetchVentes()
-    }, [])
+        fetchVentes();
+    }, []);
 
-    return(
+    return (
         <div className="containerVente">
 
             <HeaderMain title='Vente effectuée' iconUser={iconUser} iconNotification={iconNotification}></HeaderMain>
 
-            <div className="searchSection">
+            <div className="selectionSection">
                 <li onClick={handleModal}><AddButton icon={iconAdd} title='Nouvelle vente'></AddButton></li>
                 <div className="shortVente">
                     <Short 
                         option1="Cadre"  // Option 1 : Cadre
                         option2="Plastification"  // Option 2 : Plastification
                         onSelect={(category) => setSelectedCategory(category)}  // Gestion de la sélection
+                    />
+                </div>
+                <div className="date-section">
+                    <input
+                        className="select-date"
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
                     />
                 </div>
             </div>
@@ -92,7 +110,7 @@ const Vente = () => {
                                     <td className="iconAction">
                                         <button
                                             style={{color: '#E84030'}}
-                                            onClick={ () => deleteVenteRow(vente.id) }
+                                            onClick={() => deleteVenteRow(vente.id)}
                                         >Supprimer</button>
                                     </td>
                                 </tr>
@@ -110,7 +128,7 @@ const Vente = () => {
             }
 
         </div>
-    )
-}
+    );
+};
 
 export default Vente;

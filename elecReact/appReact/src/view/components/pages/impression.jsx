@@ -1,5 +1,6 @@
 import '../styles/print.css';
 import React, { useEffect, useState } from "react";
+import dayjs from 'dayjs';
 
 import iconNotification from '../../icons/Notification.png';
 import iconUser from '../../icons/Account.png';
@@ -16,6 +17,8 @@ const Print = () => {
     const [commands, setCommands] = useState([])
     const [filtredCommands, setFiltredCommands] = useState([])
     const [selectedClientType, setSelectedTypeClient] = useState('Client')
+
+    const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD")); //date courante
 
     const handleModal = () => {
         setOpenModal(true)
@@ -52,19 +55,28 @@ const Print = () => {
         setSelectedTypeClient(type)
     }
 
-    //Filtrage des commandes selon le type de client séléctionné
-    useEffect(() => {
-        if (selectedClientType === '') {
-            setFiltredCommands(commands)
-        }
-        else {
-            const filtered = commands.filter(
-                command => command.type_client.toLowerCase() === selectedClientType.toLowerCase()
-            );
-            setFiltredCommands(filtered)
-        }
-    }, [selectedClientType, commands])
+    const handleDateChange = (date) => {
+        setSelectedDate(date)
+    }
 
+    //Filtrage des commandes selon le type de client séléctionné et la date
+    useEffect(() => {
+        let filtered = commands
+
+        if (selectedClientType) {
+            filtered = filtered.filter(commande => 
+                commande.type_client.toLowerCase() === selectedClientType.toLocaleLowerCase()
+            )
+        }
+
+        if (selectedDate) {
+            filtered = filtered.filter(commande => 
+                new Date(commande.date).toISOString().split('T')[0] === selectedDate
+            )
+        }
+
+        setFiltredCommands(filtered)
+    }, [selectedClientType, selectedDate, commands])
 
     useEffect(() => {
         fetchProduitImpression()
@@ -82,6 +94,14 @@ const Print = () => {
                         option1='Client' 
                         option2='Membre'
                         handleSelect={handleClientTypeChange}
+                    />
+                </div>
+                <div className='date-section'>
+                    <input 
+                        className='select-date'
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) => handleDateChange(e.target.value)}
                     />
                 </div>
             </div>
