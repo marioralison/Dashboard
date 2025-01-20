@@ -1,26 +1,31 @@
 const path = require('path')
 
 module.exports = {
-  /**
-   * This is the main entry point for your application, it's the first file
-   * that runs in the main process.
-   */
-  entry: './src/main.js',
-
-  // Put your normal webpack config below here
+  mode: 'production',
+  entry: {
+    main: './src/main.js',
+    preload: './src/preload.js'
+  },
+  output: {
+    path: path.resolve(__dirname, '.webpack'),
+    filename: '[name].js',
+  },
+  target: 'electron-main',
   module: {
     rules: require('./webpack.rules'),
   },
   resolve: {
     extensions: ['.js', '.json', '.node'],
-  },
-  output: {
-    path: path.resolve(__dirname, '.webpack'),
-    filename: 'main_window.js',
-    publicPath : "./"
+    fallback: {
+      fs: false,
+      child_process: false,
+      path: false,
+    },
   },
   externals: {
     sqlite3: "commonjs sqlite3",
-    argon2: "commonjs argon2"
+    argon2: "commonjs argon2",
+    electron: 'commonjs electron',
+              'electron-squirrel-startup': 'commonjs electron-squirrel-startup',
   },
 };

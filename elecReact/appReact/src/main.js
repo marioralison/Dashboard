@@ -15,7 +15,6 @@ const createWindow = () => {
     width: 800,
     height: 600,
     title: 'Best photo Dashboard',
-    icon: path.join(__dirname, 'assets/icons/iconDashboard.ico'),
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       contextIsolation: true,

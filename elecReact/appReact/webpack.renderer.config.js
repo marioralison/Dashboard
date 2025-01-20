@@ -1,4 +1,5 @@
 const rules = require('./webpack.rules');
+const path = require('path')
 
 rules.push({
   test: /\.css$/,
@@ -6,8 +7,29 @@ rules.push({
 });
 
 module.exports = {
-  // Put your normal webpack config below here
+  mode: 'production',
+  entry: './src/renderer.js',
+  output: {
+    path: path.resolve(__dirname, '.webpack/renderer'),
+    filename: '[name].js',
+    publicPath: '/',
+  },
+  target: 'electron-renderer',
   module: {
     rules,
+  },
+  resolve: {
+    fallback: {
+      fs: false,
+      child_process: false,
+      path: false,
+    },
+  },
+  performance: {
+    hints: false,
+  },
+  node: {
+    __dirname: false,
+    __filename: false,
   },
 };
